@@ -278,3 +278,49 @@ Targets modern browsers with:
 - Vintage theme uses decorative borders (4px solid) on both cards
 - All text elements properly centered with textAlign: 'center'
 - Dynamic canvas dimensions based on selected image format
+
+## Mobile Responsive Design
+
+The application uses a **mobile-first responsive approach** with Tailwind CSS breakpoints.
+
+### Breakpoint Strategy
+- **Mobile (default)**: < 640px - Single column layouts, stacked buttons, reduced padding
+- **Desktop (sm+)**: ≥ 640px - Multi-column grids, horizontal buttons, full padding
+
+### Component Adaptations
+
+**App.tsx (Progress Steps)**
+- Step indicators: `px-3 py-1.5` on mobile, `px-4 py-2` on desktop
+- Spacing between steps: `gap-1` on mobile, `gap-3` on desktop
+- Dividers: `w-6` on mobile, `w-12` on desktop
+- Labels hidden on mobile with `hidden sm:inline`
+
+**BeanEntryForm.tsx**
+- Bean cards: `p-4` padding on mobile, `p-8` on desktop
+- Heading: `text-xl` on mobile, `text-2xl` on desktop
+- Footer buttons: Stacked (`flex-col-reverse`) on mobile, horizontal (`sm:flex-row`) on desktop
+
+**ImageSettings.tsx**
+- Background tabs: `flex-wrap` to prevent overflow
+- Logo position/size grids: Single column on mobile, two columns on desktop (`grid-cols-1 sm:grid-cols-2`)
+- Button text: `text-xs` on mobile, `text-sm` on desktop
+- Section padding: `p-4` on mobile, `p-8` on desktop
+
+**FormatSelector.tsx**
+- Format cards: Single column on mobile, three columns on desktop (`grid-cols-1 sm:grid-cols-3`)
+
+**ThemeSelector.tsx**
+- Theme cards: Single column on mobile, three columns on desktop (`grid-cols-1 sm:grid-cols-3`)
+
+**GenerateDownload.tsx**
+- Image navigation buttons: `flex-wrap` with reduced padding on mobile
+- Action buttons: Stacked (`flex-col`) on mobile, horizontal (`sm:flex-row`) on desktop
+- Preview container: `p-4` on mobile, `p-8` on desktop
+
+### Responsive Patterns Used
+
+1. **Button Stacking**: Footer and action buttons use `flex-col-reverse sm:flex-row` to stack vertically on mobile while maintaining visual hierarchy
+2. **Progressive Padding**: Reduced padding on mobile (`p-4`) with larger values on desktop (`p-8`)
+3. **Flexible Grids**: Grids start single column and expand at breakpoints (`grid-cols-1 sm:grid-cols-3`)
+4. **Text Scaling**: Headings and labels use responsive font sizes (`text-xl sm:text-2xl`)
+5. **Flex Wrapping**: Tab buttons and navigation use `flex-wrap` to prevent horizontal overflow

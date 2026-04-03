@@ -17,10 +17,10 @@ export function ImageSettings() {
   ]
 
   return (
-    <div className="space-y-8">
+    <div className="space-y-6 sm:space-y-8">
       <div className="text-center">
-        <h2 className="text-2xl font-semibold mb-2 text-fg">Customize Your Menu</h2>
-        <p className="text-muted">Choose format, theme, and styling options.</p>
+        <h2 className="text-xl sm:text-2xl font-semibold mb-2 text-fg">Customize Your Menu</h2>
+        <p className="text-sm sm:text-base text-muted">Choose format, theme, and styling options.</p>
       </div>
 
       <FormatSelector
@@ -37,9 +37,9 @@ export function ImageSettings() {
         }
       />
 
-      <div className="bg-paper rounded-xl p-8 border border-border/30">
-        <h3 className="text-lg font-semibold mb-4 text-fg">Background</h3>
-        <div className="flex gap-2 mb-4">
+      <div className="bg-paper rounded-xl p-4 sm:p-8 border border-border/30">
+        <h3 className="text-base sm:text-lg font-semibold mb-4 text-fg">Background</h3>
+        <div className="flex flex-wrap gap-2 mb-4">
           {backgroundTabs.map(tab => (
             <button
               key={tab.value}
@@ -51,7 +51,7 @@ export function ImageSettings() {
                   updates: { backgroundType: tab.value },
                 })
               }}
-              className={`px-4 py-2 text-sm rounded-lg transition-colors ${
+              className={`px-3 sm:px-4 py-2 text-sm rounded-lg transition-colors ${
                 activeBackgroundTab === tab.value
                   ? 'bg-accent text-white'
                   : 'bg-bg text-fg hover:bg-accent/10'
@@ -132,8 +132,8 @@ export function ImageSettings() {
         )}
       </div>
 
-      <div className="bg-paper rounded-xl p-8 border border-border/30">
-        <h3 className="text-lg font-semibold mb-4 text-fg">Logo (Optional)</h3>
+      <div className="bg-paper rounded-xl p-4 sm:p-8 border border-border/30">
+        <h3 className="text-base sm:text-lg font-semibold mb-4 text-fg">Logo (Optional)</h3>
         <FileUpload
           onFileSelect={logo => dispatch({ type: 'UPDATE_SETTINGS', updates: { logo } })}
           currentFile={state.settings.logo}
@@ -142,7 +142,7 @@ export function ImageSettings() {
           label="Upload Logo"
         />
         {state.settings.logo && (
-          <div className="grid grid-cols-2 gap-4 mt-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-4">
             <div>
               <label className="block text-sm font-medium mb-2 text-fg">Position</label>
               <div className="grid grid-cols-2 gap-2">
@@ -154,7 +154,7 @@ export function ImageSettings() {
                       onClick={() =>
                         dispatch({ type: 'UPDATE_SETTINGS', updates: { logoPosition: pos } })
                       }
-                      className={`px-3 py-2 text-sm rounded ${
+                      className={`px-3 py-2 text-xs sm:text-sm rounded ${
                         state.settings.logoPosition === pos
                           ? 'bg-accent text-white'
                           : 'bg-bg text-fg'
@@ -177,7 +177,7 @@ export function ImageSettings() {
                     onClick={() =>
                       dispatch({ type: 'UPDATE_SETTINGS', updates: { logoSize: size } })
                     }
-                    className={`flex-1 px-3 py-2 text-sm rounded ${
+                    className={`flex-1 px-3 py-2 text-xs sm:text-sm rounded ${
                       state.settings.logoSize === size
                         ? 'bg-accent text-white'
                         : 'bg-bg text-fg'
@@ -192,8 +192,8 @@ export function ImageSettings() {
         )}
       </div>
 
-      <div className="bg-paper rounded-xl p-8 border border-border/30">
-        <h3 className="text-lg font-semibold mb-4 text-fg">Header Text</h3>
+      <div className="bg-paper rounded-xl p-4 sm:p-8 border border-border/30">
+        <h3 className="text-base sm:text-lg font-semibold mb-4 text-fg">Header Text</h3>
         <input
           type="text"
           value={state.settings.headerText}
@@ -206,11 +206,11 @@ export function ImageSettings() {
         />
       </div>
 
-      <div className="flex items-center justify-between pt-8 border-t border-border">
+      <div className="flex flex-col-reverse sm:flex-row items-stretch sm:items-center justify-between pt-8 border-t border-border gap-3">
         <button
           type="button"
           onClick={() => dispatch({ type: 'SET_STEP', step: 1 })}
-          className="px-6 py-2.5 border border-border rounded-lg hover:bg-paper transition-colors font-medium text-sm text-fg"
+          className="px-6 py-2.5 border border-border rounded-lg hover:bg-paper transition-colors font-medium text-sm text-fg text-center"
         >
           ← Back to Beans
         </button>

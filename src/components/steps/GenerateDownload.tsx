@@ -123,10 +123,10 @@ export function GenerateDownload() {
   }
 
   return (
-    <div className="space-y-8">
+    <div className="space-y-6 sm:space-y-8">
       <div className="text-center">
-        <h2 className="text-2xl font-semibold mb-2 text-fg">Generate & Download</h2>
-        <p className="text-muted">Create your Instagram-ready menu images.</p>
+        <h2 className="text-xl sm:text-2xl font-semibold mb-2 text-fg">Generate & Download</h2>
+        <p className="text-sm sm:text-base text-muted">Create your Instagram-ready menu images.</p>
       </div>
 
       {generatedImages.length === 0 && !isGenerating && (
@@ -152,19 +152,19 @@ export function GenerateDownload() {
 
       {generatedImages.length > 0 && (
         <>
-          <div className="bg-paper rounded-xl p-8 border border-border/30">
+          <div className="bg-paper rounded-xl p-4 sm:p-8 border border-border/30">
             <img
               src={generatedImages[currentPreview]}
               alt={`Preview ${currentPreview + 1}`}
               className="w-full max-w-lg mx-auto rounded-lg shadow-lg"
             />
             {generatedImages.length > 1 && (
-              <div className="flex justify-center gap-2 mt-4">
+              <div className="flex flex-wrap justify-center gap-2 mt-4">
                 {generatedImages.map((_, index) => (
                   <button
                     key={index}
                     onClick={() => setCurrentPreview(index)}
-                    className={`px-4 py-2 text-sm rounded transition-colors ${
+                    className={`px-3 sm:px-4 py-2 text-sm rounded transition-colors ${
                       currentPreview === index
                         ? 'bg-accent text-white'
                         : 'bg-bg text-fg hover:bg-accent/10'
@@ -177,7 +177,7 @@ export function GenerateDownload() {
             )}
           </div>
 
-          <div className="flex justify-center gap-3">
+          <div className="flex flex-col sm:flex-row justify-center gap-3">
             <button
               onClick={() => downloadSingle(currentPreview)}
               className="px-6 py-2.5 bg-accent text-white rounded-lg hover:opacity-90 transition-opacity font-medium text-sm"
@@ -192,7 +192,7 @@ export function GenerateDownload() {
             </button>
           </div>
 
-          <div className="flex justify-center gap-3 pt-8 border-t border-border">
+          <div className="flex flex-col sm:flex-row justify-center gap-3 pt-8 border-t border-border">
             <button
               onClick={exportJSON}
               className="px-6 py-2.5 border border-border rounded-lg hover:bg-paper transition-colors font-medium text-sm text-fg"

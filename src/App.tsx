@@ -29,8 +29,8 @@ function AppContent() {
     <div className="min-h-screen flex flex-col bg-bg">
       {/* Progress Steps */}
       <div className="border-b border-border bg-paper">
-        <div className="max-w-4xl mx-auto px-4 py-6">
-          <div className="flex items-center justify-center gap-3">
+        <div className="max-w-4xl mx-auto px-4 py-4 sm:py-6">
+          <div className="flex items-center justify-center gap-1 sm:gap-3">
             {steps.map((step, index) => (
               <div key={step.number} className="flex items-center">
                 <button
@@ -40,7 +40,7 @@ function AppContent() {
                     }
                   }}
                   disabled={step.number > state.currentStep}
-                  className={`flex items-center gap-2 px-4 py-2 rounded-full transition-all ${
+                  className={`flex items-center gap-1.5 sm:gap-2 px-3 sm:px-4 py-1.5 sm:py-2 rounded-full transition-all ${
                     state.currentStep === step.number
                       ? 'bg-accent text-white font-medium'
                       : state.currentStep > step.number
@@ -50,7 +50,7 @@ function AppContent() {
                   style={{ cursor: step.number > state.currentStep ? 'not-allowed' : 'pointer' }}
                 >
                   <span 
-                    className={`flex items-center justify-center w-6 h-6 rounded-full text-xs font-semibold ${
+                    className={`flex items-center justify-center w-5 h-5 sm:w-6 sm:h-6 rounded-full text-xs font-semibold ${
                       state.currentStep === step.number 
                         ? 'bg-white/20' 
                         : state.currentStep > step.number 
@@ -63,7 +63,7 @@ function AppContent() {
                   <span className="hidden sm:inline">{step.label}</span>
                 </button>
                 {index < steps.length - 1 && (
-                  <div className="w-12 h-px bg-muted/30 mx-3"></div>
+                  <div className="w-6 sm:w-12 h-px bg-muted/30 mx-1 sm:mx-3"></div>
                 )}
               </div>
             ))}
@@ -72,13 +72,13 @@ function AppContent() {
       </div>
 
       {/* Main Content */}
-      <main className="flex-1 max-w-4xl mx-auto w-full px-4 py-12">
+      <main className="flex-1 max-w-4xl mx-auto w-full px-4 py-8 sm:py-12">
         {renderStep()}
       </main>
 
       {/* Footer */}
       <footer className="border-t border-border">
-        <div className="max-w-4xl mx-auto px-4 py-6">
+        <div className="max-w-4xl mx-auto px-4 py-4 sm:py-6">
           <p className="text-xs text-muted text-center">
             Brewbar — Create beautiful Instagram-ready menu images for your cafe
           </p>

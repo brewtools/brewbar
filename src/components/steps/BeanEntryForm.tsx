@@ -17,9 +17,9 @@ function BeanCard({ bean, index, canRemove }: BeanCardProps) {
   }
 
   return (
-    <div className="bg-paper rounded-xl p-8 border border-border/30">
-      <div className="flex items-center justify-between mb-6">
-        <h3 className="text-lg font-semibold text-fg">Bean #{index + 1}</h3>
+    <div className="bg-paper rounded-xl p-4 sm:p-8 border border-border/30">
+      <div className="flex items-center justify-between mb-4 sm:mb-6">
+        <h3 className="text-base sm:text-lg font-semibold text-fg">Bean #{index + 1}</h3>
         {canRemove && (
           <button
             type="button"
@@ -162,10 +162,10 @@ export function BeanEntryForm() {
   )
 
   return (
-    <div className="space-y-8">
+    <div className="space-y-6 sm:space-y-8">
       <div className="text-center">
-        <h2 className="text-2xl font-semibold mb-2 text-fg">Enter Your Coffee Beans</h2>
-        <p className="text-muted">Add up to 5 beans to showcase on your menu.</p>
+        <h2 className="text-xl sm:text-2xl font-semibold mb-2 text-fg">Enter Your Coffee Beans</h2>
+        <p className="text-sm sm:text-base text-muted">Add up to 5 beans to showcase on your menu.</p>
       </div>
 
       {state.beans.length === 0 ? (
@@ -210,8 +210,8 @@ export function BeanEntryForm() {
         </>
       )}
 
-      <div className="flex items-center justify-between pt-8 border-t border-border">
-        <label className="px-6 py-2.5 border border-border rounded-lg cursor-pointer hover:border-accent hover:text-accent transition-colors font-medium text-sm text-fg">
+      <div className="flex flex-col-reverse sm:flex-row items-stretch sm:items-center justify-between pt-8 border-t border-border gap-3">
+        <label className="px-6 py-2.5 border border-border rounded-lg cursor-pointer hover:border-accent hover:text-accent transition-colors font-medium text-sm text-fg text-center">
           Import JSON
           <input
             type="file"

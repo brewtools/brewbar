@@ -61,9 +61,9 @@ const themes: Array<{ value: Theme; name: string; description: string }> = [
 
 export function ThemeSelector({ selectedTheme, onThemeChange }: ThemeSelectorProps) {
   return (
-    <div className="bg-paper rounded-xl p-8 border border-border/30">
+    <div className="bg-paper rounded-xl p-6 sm:p-8 border border-border/30">
       <h3 className="text-lg font-semibold mb-4 text-fg">Theme</h3>
-      <div className="grid grid-cols-3 gap-3 mb-4">
+      <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 mb-4">
         {themes.slice(0, 3).map(theme => (
           <ThemeCard
             key={theme.value}
@@ -75,7 +75,7 @@ export function ThemeSelector({ selectedTheme, onThemeChange }: ThemeSelectorPro
           />
         ))}
       </div>
-      <div className="grid grid-cols-3 gap-3">
+      <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
         {themes.slice(3, 6).map(theme => (
           <ThemeCard
             key={theme.value}

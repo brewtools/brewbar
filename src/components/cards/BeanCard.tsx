@@ -36,9 +36,7 @@ export function BeanCard({ bean, settings }: BeanCardProps) {
   }
 
   const renderCard = () => {
-    if (settings.theme === 'minimal' || settings.theme === 'minimal-dark') {
-      return <MinimalLayout bean={bean} themeConfig={themeConfig} />
-    } else if (settings.theme === 'warm' || settings.theme === 'warm-dark') {
+    if (settings.theme === 'warm' || settings.theme === 'warm-dark') {
       return <WarmLayout bean={bean} themeConfig={themeConfig} />
     } else {
       return <VintageLayout bean={bean} themeConfig={themeConfig} />
@@ -81,171 +79,6 @@ export function BeanCard({ bean, settings }: BeanCardProps) {
       )}
 
       {renderCard()}
-    </div>
-  )
-}
-
-function MinimalLayout({ bean, themeConfig }: { bean: Bean; themeConfig: ReturnType<typeof getTheme> }) {
-  return (
-    <div style={{ textAlign: 'center', width: '100%' }}>
-      {/* Name */}
-      <h2
-        style={{
-          fontSize: '72px',
-          fontWeight: 300,
-          marginBottom: '12px',
-          color: themeConfig.colors.text,
-          fontFamily: themeConfig.fonts.heading,
-          letterSpacing: '-2px',
-        }}
-      >
-        {bean.name}
-      </h2>
-
-      {/* Roaster */}
-      <div
-        style={{
-          fontSize: '24px',
-          marginBottom: '80px',
-          color: themeConfig.colors.mutedText,
-          fontFamily: themeConfig.fonts.body,
-          fontWeight: 300,
-        }}
-      >
-        {bean.roaster}
-      </div>
-
-      {/* Divider */}
-      <div
-        style={{
-          width: '200px',
-          height: '1px',
-          backgroundColor: themeConfig.colors.text,
-          margin: '0 auto 80px',
-          opacity: 0.1,
-        }}
-      />
-
-      {/* Origin & Varietal - Side by Side */}
-      <div
-        style={{
-          display: 'flex',
-          justifyContent: 'center',
-          gap: '120px',
-          marginBottom: '80px',
-        }}
-      >
-        <div style={{ textAlign: 'center' }}>
-          <div
-            style={{
-              fontSize: '11px',
-              color: themeConfig.colors.mutedText,
-              marginBottom: '16px',
-              fontFamily: themeConfig.fonts.body,
-              textTransform: 'uppercase',
-              letterSpacing: '3px',
-              fontWeight: 500,
-            }}
-          >
-            Origin
-          </div>
-          <div
-            style={{
-              fontSize: '32px',
-              color: themeConfig.colors.text,
-              fontFamily: themeConfig.fonts.body,
-              fontWeight: 300,
-            }}
-          >
-            {bean.origin}
-          </div>
-        </div>
-
-        <div style={{ textAlign: 'center' }}>
-          <div
-            style={{
-              fontSize: '11px',
-              color: themeConfig.colors.mutedText,
-              marginBottom: '16px',
-              fontFamily: themeConfig.fonts.body,
-              textTransform: 'uppercase',
-              letterSpacing: '3px',
-              fontWeight: 500,
-            }}
-          >
-            Varietal
-          </div>
-          <div
-            style={{
-              fontSize: '32px',
-              color: themeConfig.colors.text,
-              fontFamily: themeConfig.fonts.body,
-              fontWeight: 300,
-            }}
-          >
-            {bean.varietal}
-          </div>
-        </div>
-      </div>
-
-      {/* Roast - Centered, Emphasized */}
-      <div
-        style={{
-          fontSize: '20px',
-          marginBottom: '60px',
-          color: themeConfig.colors.accent,
-          fontFamily: themeConfig.fonts.body,
-          textTransform: 'uppercase',
-          letterSpacing: '4px',
-          fontWeight: 500,
-        }}
-      >
-        {bean.roastProfile}
-      </div>
-
-      {/* Tasting Notes with Borders */}
-      {bean.tastingNotes.length > 0 && (
-        <div>
-          <div
-            style={{
-              fontSize: '11px',
-              color: themeConfig.colors.mutedText,
-              marginBottom: '32px',
-              fontFamily: themeConfig.fonts.body,
-              textTransform: 'uppercase',
-              letterSpacing: '3px',
-              fontWeight: 500,
-            }}
-          >
-            Flavor Profile
-          </div>
-          <div
-            style={{
-              display: 'flex',
-              flexWrap: 'wrap',
-              gap: '20px',
-              justifyContent: 'center',
-            }}
-          >
-            {bean.tastingNotes.slice(0, 6).map(note => (
-              <div
-                key={note.id}
-                style={{
-                  padding: '16px 32px',
-                  fontSize: '18px',
-                  fontFamily: themeConfig.fonts.body,
-                  color: themeConfig.colors.text,
-                  border: `1px solid ${themeConfig.colors.text}`,
-                  fontWeight: 300,
-                  letterSpacing: '0.5px',
-                }}
-              >
-                {note.text}
-              </div>
-            ))}
-          </div>
-        </div>
-      )}
     </div>
   )
 }
@@ -373,7 +206,7 @@ function WarmLayout({ bean, themeConfig }: { bean: Bean; themeConfig: ReturnType
         </div>
       </div>
 
-      {/* Tasting Notes with Pills */}
+      {/* Tasting Notes - Bullet Separators */}
       {bean.tastingNotes.length > 0 && (
         <div>
           <div
@@ -390,27 +223,18 @@ function WarmLayout({ bean, themeConfig }: { bean: Bean; themeConfig: ReturnType
           </div>
           <div
             style={{
-              display: 'flex',
-              flexWrap: 'wrap',
-              gap: '14px',
-              justifyContent: 'center',
+              fontSize: '20px',
+              color: themeConfig.colors.text,
+              fontFamily: themeConfig.fonts.body,
+              lineHeight: 1.8,
+              letterSpacing: '0.5px',
             }}
           >
-            {bean.tastingNotes.slice(0, 6).map(note => (
-              <div
-                key={note.id}
-                style={{
-                  padding: '14px 32px',
-                  backgroundColor: themeConfig.colors.secondary,
-                  color: themeConfig.colors.text,
-                  fontSize: '18px',
-                  borderRadius: '30px',
-                  fontFamily: themeConfig.fonts.body,
-                  fontWeight: 500,
-                }}
-              >
+            {bean.tastingNotes.slice(0, 6).map((note, index) => (
+              <span key={note.id}>
                 {note.text}
-              </div>
+                {index < Math.min(bean.tastingNotes.length, 6) - 1 && ' • '}
+              </span>
             ))}
           </div>
         </div>

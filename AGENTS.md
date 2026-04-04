@@ -74,19 +74,7 @@ brewbar/
 
 ### Theme System
 
-**Six distinct and unique themes** (3 light + 3 dark variants):
-
-#### Minimal Modern / Minimal Dark
-- **Concept**: Sleek, contemporary, editorial-style layout
-- **Typography**: Inter font with thin weights (300), dramatic letter-spacing (-2px)
-- **Layout Features**:
-  - Bean name at 72px, ultra-light weight for elegance
-  - Simple divider line for visual separation (1px, subtle)
-  - Two-column layout for Origin/Varietal only
-  - Roast level prominently centered, separate, in uppercase with wide letter-spacing (4px)
-  - Clean, 1px bordered boxes for tasting notes
-  - Minimal color palette with strong contrast
-- **Unique Element**: Vertical information hierarchy with roast level emphasized separately
+**Four distinct and unique themes** (2 light + 2 dark variants):
 
 #### Warm & Cozy / Warm Dark
 - **Concept**: Inviting, artisanal, approachable shop feel
@@ -95,7 +83,7 @@ brewbar/
   - Decorative accent line at top as branding element (60px wide, 4px thick, rounded)
   - Broad italic "by [Roaster]" subheading for personality
   - Three-column layout showing all info (Origin, Varietal, Roast)
-  - Pill-shaped tasting notes with rounded corners (30px radius)
+  - Bullet-separated tasting notes (•) for clean presentation
   - Softer color palette with cream and brown tones
   - Italicized labels for vintage charm
 - **Unique Element**: Decorative top accent bar and "by [Roaster]" attribution style
@@ -114,16 +102,16 @@ brewbar/
 
 ### Key Visual Differences Between Themes
 
-| Feature | Minimal | Warm | Vintage |
-|---------|--------|------|---------|
-| Typography Weight | Ultra-light (300) | Regular/Medium (400-500) | Regular (400) |
-| Font Family | Inter only | Merriweather + Inter | Playfair Display + Inter |
-| Tasting Notes Display | Bordered boxes (1px) | Rounded pills (30px radius) | Bullet separators (•) |
-| Info Layout | 2-column (+roast separate) | 3-column | 3-column |
-| Frame/Border | None | Top accent line (4px) | Full border frame (4px) |
-| Roaster Attribution | Simple text | "by [Name]" italic | Italicized plain |
-| Decorative Elements | Divider line (1px) | Top accent bar | Border frame + divider |
-| Spacing Feel | Spacious & airy | Cozy & gathered | Classic & structured |
+| Feature | Warm | Vintage |
+|---------|------|---------|
+| Typography Weight | Regular/Medium (400-500) | Regular (400) |
+| Font Family | Merriweather + Inter | Playfair Display + Inter |
+| Tasting Notes Display | Bullet separators (•) | Bullet separators (•) |
+| Info Layout | 3-column | 3-column |
+| Frame/Border | Top accent line (4px) | Full border frame (4px) |
+| Roaster Attribution | "by [Name]" italic | Italicized plain |
+| Decorative Elements | Top accent bar | Border frame + divider |
+| Spacing Feel | Cozy & gathered | Classic & structured |
 
 ### Image Generation Flow
 
@@ -215,8 +203,6 @@ The application uses the Flexoki color scheme for light theme only (no dark mode
 - Accent: #D14D41 (red)
 
 **Individual Theme Colors:**
-- Minimal Light: White (#FFFFFF) background, black text
-- Minimal Dark: Black (#100F0F) background, white text
 - Warm Light: Cream (#FEF9F3), earthy tones
 - Warm Dark: Dark brown (#1A1311), cream accents
 - Vintage Light: Aged paper (#F4ECD8), sepia tones
@@ -226,7 +212,7 @@ The application uses the Flexoki color scheme for light theme only (no dark mode
 
 1. **No State Persistence**: As per requirements, data is stored in-memory only
 2. **Client-Side Only**: All processing happens in browser, works offline
-3. **Six Distinct Themes**: Each with fundamentally different layouts, not just color changes
+3. **Four Distinct Themes**: Each with fundamentally different layouts, not just color changes
 4. **Theme Uniqueness**: Each theme has unique information architecture, typography weight, and visual elements
 5. **Vintage Border Frame**: Vintage themes feature decorative 4px borders on both header and bean cards
 6. **Consistent Spacing**: 80px outer padding, 60-80px section spacing across all themes
@@ -245,8 +231,7 @@ The application uses the Flexoki color scheme for light theme only (no dark mode
 
 ### Theme Enhancements
 - **Unique Characteristics**: Each theme now has distinctive visual elements beyond colors
-- **Minimal**: Thin typography (300 weight), large letter-spacing, simple dividers
-- **Warm**: Decorative accent bars, pill-shaped tags, "by Roaster" attribution
+- **Warm**: Decorative accent bars, bullet-separated tasting notes, "by Roaster" attribution
 - **Vintage**: Border frames, italic elements, bullet separators, Playfair Display serif
 
 ### Border Consistency
@@ -273,7 +258,7 @@ Targets modern browsers with:
 
 - Centered alignment throughout all themes
 - Consistent spacing rhythm (80px, 60px, 40px, 24px increments)
-- Three-column info sections for Origin, Varietal, Roast (Warm/Vintage) or two-column (Minimal)
+- Three-column info sections for Origin, Varietal, Roast (all themes)
 - Flavor Profile always at bottom with proper labels
 - Vintage theme uses decorative borders (4px solid) on both cards
 - All text elements properly centered with textAlign: 'center'

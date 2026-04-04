@@ -22,46 +22,6 @@ export interface ThemeConfig {
 }
 
 export const themes: Record<Theme, ThemeConfig> = {
-  minimal: {
-    name: 'Minimal Modern',
-    description: 'Clean lines, high contrast, generous whitespace',
-    colors: {
-      primary: '#FFFFFF',
-      secondary: '#F5F5F5',
-      accent: '#100F0F',
-      paper: '#FFFFFF',
-      text: '#100F0F',
-      mutedText: '#6F6E69',
-    },
-    fonts: {
-      heading: 'Inter',
-      body: 'Inter',
-    },
-    styles: {
-      borderRadius: '0',
-      shadowClass: 'shadow-sm',
-    },
-  },
-  'minimal-dark': {
-    name: 'Minimal Dark',
-    description: 'Clean lines, dark background, high contrast',
-    colors: {
-      primary: '#100F0F',
-      secondary: '#1C1C1C',
-      accent: '#FFFCF0',
-      paper: '#100F0F',
-      text: '#FFFCF0',
-      mutedText: '#878580',
-    },
-    fonts: {
-      heading: 'Inter',
-      body: 'Inter',
-    },
-    styles: {
-      borderRadius: '0',
-      shadowClass: 'shadow-sm',
-    },
-  },
   warm: {
     name: 'Warm & Cozy',
     description: 'Earthy tones, warm browns, soft shadows',

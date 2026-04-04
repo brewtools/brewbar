@@ -6,7 +6,7 @@ const generateId = () => Math.random().toString(36).substring(2, 11)
 const initialSettings: GlobalSettings = {
   headerText: 'On the brew bar',
   format: 'square',
-  theme: 'minimal',
+  theme: 'warm',
   backgroundType: 'default',
   backgroundImage: null,
   gradientColor: '#8B7355',

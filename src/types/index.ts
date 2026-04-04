@@ -1,6 +1,6 @@
 export type ImageFormat = 'square' | 'portrait' | 'story'
 
-export type Theme = 'minimal' | 'minimal-dark' | 'warm' | 'warm-dark' | 'vintage' | 'vintage-dark'
+export type Theme = 'warm' | 'warm-dark' | 'vintage' | 'vintage-dark'
 
 export type BackgroundType = 'default' | 'global' | 'perImage' | 'gradient'
 

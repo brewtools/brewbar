@@ -6,12 +6,10 @@ interface ThemeCardProps {
   onClick: () => void
 }
 
-type Theme = 'minimal' | 'minimal-dark' | 'warm' | 'warm-dark' | 'vintage' | 'vintage-dark'
+type Theme = 'warm' | 'warm-dark' | 'vintage' | 'vintage-dark'
 
 function ThemeCard({ theme, name, description, isSelected, onClick }: ThemeCardProps) {
   const colors: Record<Theme, { bg: string; text: string; accent: string }> = {
-    'minimal': { bg: '#FFFFFF', text: '#100F0F', accent: '#100F0F' },
-    'minimal-dark': { bg: '#100F0F', text: '#FFFCF0', accent: '#FFFCF0' },
     'warm': { bg: '#FEF9F3', text: '#3E2723', accent: '#8B7355' },
     'warm-dark': { bg: '#2D1F1A', text: '#F5E6D3', accent: '#D4A574' },
     'vintage': { bg: '#F4ECD8', text: '#3E2723', accent: '#5D4037' },
@@ -51,8 +49,6 @@ interface ThemeSelectorProps {
 }
 
 const themes: Array<{ value: Theme; name: string; description: string }> = [
-  { value: 'minimal', name: 'Minimal', description: 'Light' },
-  { value: 'minimal-dark', name: 'Minimal', description: 'Dark' },
   { value: 'warm', name: 'Warm', description: 'Light' },
   { value: 'warm-dark', name: 'Warm', description: 'Dark' },
   { value: 'vintage', name: 'Vintage', description: 'Light' },
@@ -63,8 +59,8 @@ export function ThemeSelector({ selectedTheme, onThemeChange }: ThemeSelectorPro
   return (
     <div className="bg-paper rounded-xl p-6 sm:p-8 border border-border/30">
       <h3 className="text-lg font-semibold mb-4 text-fg">Theme</h3>
-      <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 mb-4">
-        {themes.slice(0, 3).map(theme => (
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 mb-4">
+        {themes.slice(0, 2).map(theme => (
           <ThemeCard
             key={theme.value}
             theme={theme.value}
@@ -75,8 +71,8 @@ export function ThemeSelector({ selectedTheme, onThemeChange }: ThemeSelectorPro
           />
         ))}
       </div>
-      <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
-        {themes.slice(3, 6).map(theme => (
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+        {themes.slice(2, 4).map(theme => (
           <ThemeCard
             key={theme.value}
             theme={theme.value}

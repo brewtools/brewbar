@@ -1,44 +1,85 @@
+import type { Theme } from '@/types'
+import { getTheme } from '@/themes/themes'
+import { useState } from 'react'
+
 interface ThemeCardProps {
   theme: Theme
-  name: string
-  description: string
   isSelected: boolean
   onClick: () => void
 }
 
-type Theme = 'warm' | 'warm-dark' | 'vintage' | 'vintage-dark'
-
-function ThemeCard({ theme, name, description, isSelected, onClick }: ThemeCardProps) {
-  const colors: Record<Theme, { bg: string; text: string; accent: string }> = {
-    'warm': { bg: '#FEF9F3', text: '#3E2723', accent: '#8B7355' },
-    'warm-dark': { bg: '#2D1F1A', text: '#F5E6D3', accent: '#D4A574' },
-    'vintage': { bg: '#F4ECD8', text: '#3E2723', accent: '#5D4037' },
-    'vintage-dark': { bg: '#2C2418', text: '#E8DCCA', accent: '#C4A77D' },
-  }
-
-  const themeColors = colors[theme]
+function ThemeCard({ theme, isSelected, onClick }: ThemeCardProps) {
+  const themeConfig = getTheme(theme)
+  const isDark = theme.includes('dark') || theme === 'starry-night' || theme === 'space'
 
   return (
     <button
       type="button"
       onClick={onClick}
-      className={`p-4 rounded-lg text-left transition-all ${
+      className={`p-4 rounded-lg text-left transition-all relative overflow-hidden ${
         isSelected
-          ? 'border-2 border-accent'
-          : 'border-2 border-border hover:border-muted'
+          ? 'ring-2 ring-accent ring-offset-2 ring-offset-paper'
+          : 'hover:ring-1 hover:ring-border hover:ring-offset-1 hover:ring-offset-paper'
       }`}
-      style={{ backgroundColor: themeColors.bg }}
+      style={{ 
+        backgroundColor: themeConfig.colors.primary,
+        borderRadius: themeConfig.styles.borderRadius,
+      }}
     >
-      <h4 className="font-semibold mb-1 text-sm" style={{ color: themeColors.text }}>
-        {name}
-      </h4>
-      <p className="text-xs" style={{ color: themeColors.text, opacity: 0.6 }}>
-        {description}
-      </p>
-      <div
-        className="h-0.5 rounded mt-2"
-        style={{ backgroundColor: themeColors.accent, opacity: isSelected ? 1 : 0 }}
+      {/* Accent bar at top */}
+      <div 
+        className="absolute top-0 left-0 right-0 h-1"
+        style={{ backgroundColor: themeConfig.colors.accent }}
       />
+      
+      <div className="mt-2">
+        <h4 
+          className="font-semibold mb-1 text-sm"
+          style={{ color: themeConfig.colors.text }}
+        >
+          {themeConfig.name}
+        </h4>
+        <p 
+          className="text-xs leading-relaxed"
+          style={{ color: themeConfig.colors.mutedText }}
+        >
+          {isDark ? 'Dark' : 'Light'}
+        </p>
+      </div>
+      
+      {/* Color preview dots */}
+      <div className="flex gap-1.5 mt-3">
+        <div 
+          className="w-3 h-3 rounded-full"
+          style={{ backgroundColor: themeConfig.colors.primary }}
+        />
+        <div 
+          className="w-3 h-3 rounded-full"
+          style={{ backgroundColor: themeConfig.colors.accent }}
+        />
+        <div 
+          className="w-3 h-3 rounded-full"
+          style={{ backgroundColor: themeConfig.colors.text }}
+        />
+      </div>
+      
+      {/* Selected indicator */}
+      {isSelected && (
+        <div 
+          className="absolute bottom-2 right-2 w-5 h-5 rounded-full flex items-center justify-center"
+          style={{ backgroundColor: themeConfig.colors.accent }}
+        >
+          <svg 
+            className="w-3 h-3" 
+            fill="none" 
+            viewBox="0 0 24 24" 
+            stroke={isDark ? '#000' : '#fff'}
+            strokeWidth={3}
+          >
+            <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
+          </svg>
+        </div>
+      )}
     </button>
   )
 }
@@ -48,40 +89,91 @@ interface ThemeSelectorProps {
   onThemeChange: (theme: Theme) => void
 }
 
-const themes: Array<{ value: Theme; name: string; description: string }> = [
-  { value: 'warm', name: 'Warm', description: 'Light' },
-  { value: 'warm-dark', name: 'Warm', description: 'Dark' },
-  { value: 'vintage', name: 'Vintage', description: 'Light' },
-  { value: 'vintage-dark', name: 'Vintage', description: 'Dark' },
+type Category = 'classic' | 'coffee' | 'nature' | 'artistic'
+
+interface ThemeCategory {
+  id: Category
+  label: string
+  themes: Theme[]
+}
+
+const themeCategories: ThemeCategory[] = [
+  {
+    id: 'classic',
+    label: 'Classic',
+    themes: ['warm', 'warm-dark', 'vintage', 'vintage-dark'],
+  },
+  {
+    id: 'coffee',
+    label: 'Coffee',
+    themes: ['espresso', 'espresso-dark'],
+  },
+  {
+    id: 'nature',
+    label: 'Nature',
+    themes: ['zen-garden', 'matcha'],
+  },
+  {
+    id: 'artistic',
+    label: 'Artistic',
+    themes: ['aurora', 'washi', 'washi-dark', 'space', 'starry-night'],
+  },
 ]
 
 export function ThemeSelector({ selectedTheme, onThemeChange }: ThemeSelectorProps) {
+  // Determine initial active category based on selected theme
+  const getInitialCategory = (): Category => {
+    for (const category of themeCategories) {
+      if (category.themes.includes(selectedTheme)) {
+        return category.id
+      }
+    }
+    return 'classic'
+  }
+  
+  const [activeCategory, setActiveCategory] = useState<Category>(getInitialCategory())
+  
+  const currentCategory = themeCategories.find(c => c.id === activeCategory)
+
   return (
     <div className="bg-paper rounded-xl p-6 sm:p-8 border border-border/30">
       <h3 className="text-lg font-semibold mb-4 text-fg">Theme</h3>
-      <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 mb-4">
-        {themes.slice(0, 2).map(theme => (
+      
+      {/* Category Tabs */}
+      <div className="flex flex-wrap gap-2 mb-6">
+        {themeCategories.map((category) => (
+          <button
+            key={category.id}
+            type="button"
+            onClick={() => setActiveCategory(category.id)}
+            className={`px-4 py-2 rounded-lg text-sm font-medium transition-all ${
+              activeCategory === category.id
+                ? 'bg-fg text-bg'
+                : 'bg-bg border border-border hover:border-muted text-fg'
+            }`}
+          >
+            {category.label}
+          </button>
+        ))}
+      </div>
+      
+      {/* Theme Grid */}
+      <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
+        {currentCategory?.themes.map((theme) => (
           <ThemeCard
-            key={theme.value}
-            theme={theme.value}
-            name={theme.name}
-            description={theme.description}
-            isSelected={selectedTheme === theme.value}
-            onClick={() => onThemeChange(theme.value)}
+            key={theme}
+            theme={theme}
+            isSelected={selectedTheme === theme}
+            onClick={() => onThemeChange(theme)}
           />
         ))}
       </div>
-      <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-        {themes.slice(2, 4).map(theme => (
-          <ThemeCard
-            key={theme.value}
-            theme={theme.value}
-            name={theme.name}
-            description={theme.description}
-            isSelected={selectedTheme === theme.value}
-            onClick={() => onThemeChange(theme.value)}
-          />
-        ))}
+      
+      {/* Theme description */}
+      <div className="mt-4 p-3 bg-bg rounded-lg border border-border/30">
+        <p className="text-sm text-muted">
+          {getTheme(selectedTheme).description}
+        </p>
       </div>
     </div>
   )

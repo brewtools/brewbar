@@ -1,6 +1,15 @@
 export type ImageFormat = 'square' | 'portrait' | 'story'
 
-export type Theme = 'warm' | 'warm-dark' | 'vintage' | 'vintage-dark'
+export type Theme = 
+  | 'warm' | 'warm-dark' 
+  | 'vintage' | 'vintage-dark'
+  | 'espresso' | 'espresso-dark'
+  | 'aurora'
+  | 'zen-garden'
+  | 'washi' | 'washi-dark'
+  | 'matcha'
+  | 'space'
+  | 'starry-night'
 
 export type BackgroundType = 'default' | 'global' | 'gradient'
 

@@ -2,16 +2,20 @@ import type { Bean, GlobalSettings } from '@/types'
 import { getTheme } from '@/themes/themes'
 import { IMAGE_DIMENSIONS, LOGO_SIZES } from '@/types'
 import { getBackgroundStyle } from '@/utils/styles'
+import type { AuroraThemeData, Star } from '@/utils/aurora'
 
 interface HeaderCardProps {
   beans: Bean[]
   settings: GlobalSettings
+  auroraData?: AuroraThemeData
+  starryNightStars?: Star[]
 }
 
-export function HeaderCard({ beans, settings }: HeaderCardProps) {
+export function HeaderCard({ beans, settings, auroraData, starryNightStars }: HeaderCardProps) {
   const themeConfig = getTheme(settings.theme)
-  const isVintage = settings.theme === 'vintage' || settings.theme === 'vintage-dark'
+  const hasBorder = ['vintage', 'vintage-dark', 'espresso', 'espresso-dark', 'washi', 'washi-dark', 'zen-garden'].includes(settings.theme)
   const dimensions = IMAGE_DIMENSIONS[settings.format]
+  
   const bgStyle = getBackgroundStyle(
     settings.backgroundType,
     settings.backgroundImage,
@@ -20,20 +24,65 @@ export function HeaderCard({ beans, settings }: HeaderCardProps) {
     settings.theme
   )
 
+  // Special background for Aurora theme
+  const isAurora = settings.theme === 'aurora'
+  const isStarryNight = settings.theme === 'starry-night'
+  
+  const containerStyle = {
+    width: `${dimensions.width}px`,
+    height: `${dimensions.height}px`,
+    display: 'flex' as const,
+    flexDirection: 'column' as const,
+    alignItems: 'center',
+    justifyContent: 'center',
+    padding: '80px',
+    position: 'relative' as const,
+    ...(isAurora ? { background: auroraData?.gradient } : 
+      isStarryNight ? { 
+        background: `radial-gradient(ellipse at bottom, ${themeConfig.colors.secondary} 0%, ${themeConfig.colors.primary} 100%)` 
+      } : bgStyle),
+  }
+
+  // Determine text colors based on theme
+  const textColor = isAurora 
+    ? (auroraData?.textColor ?? '#ffffff')
+    : isStarryNight 
+      ? themeConfig.colors.text 
+      : themeConfig.colors.text
+  
+  const mutedTextColor = isAurora 
+    ? (auroraData?.isDark ? 'rgba(255,255,255,0.7)' : 'rgba(0,0,0,0.6)')
+    : isStarryNight 
+      ? themeConfig.colors.mutedText 
+      : themeConfig.colors.mutedText
+
+  const dividerColor = isAurora
+    ? (auroraData?.isDark ? 'rgba(255,255,255,0.2)' : 'rgba(0,0,0,0.15)')
+    : isStarryNight
+      ? 'rgba(255,255,255,0.15)'
+      : `${themeConfig.colors.text}15`
+
   return (
-    <div
-      style={{
-        width: `${dimensions.width}px`,
-        height: `${dimensions.height}px`,
-        display: 'flex',
-        flexDirection: 'column',
-        alignItems: 'center',
-        justifyContent: 'center',
-        padding: '80px',
-        position: 'relative',
-        ...bgStyle,
-      }}
-    >
+    <div style={containerStyle}>
+      {/* Stars for Starry Night theme */}
+      {isStarryNight && starryNightStars?.map((star) => (
+        <div
+          key={star.id}
+          style={{
+            position: 'absolute',
+            left: `${star.left}%`,
+            top: `${star.top}%`,
+            width: `${star.size}px`,
+            height: `${star.size}px`,
+            backgroundColor: themeConfig.colors.accent,
+            borderRadius: '50%',
+            opacity: star.opacity,
+            boxShadow: `0 0 ${star.size * 2}px ${themeConfig.colors.accent}`,
+            animation: `twinkle 3s infinite ${star.animationDelay}s`,
+          }}
+        />
+      ))}
+
       {settings.logo && (
         <div
           style={{
@@ -63,8 +112,10 @@ export function HeaderCard({ beans, settings }: HeaderCardProps) {
           display: 'flex',
           flexDirection: 'column',
           justifyContent: 'center',
-          padding: isVintage ? '60px' : '0',
-          border: isVintage ? `4px solid ${themeConfig.colors.accent}` : 'none',
+          padding: hasBorder ? '60px' : '0',
+          border: hasBorder ? `4px solid ${themeConfig.colors.accent}` : 'none',
+          position: 'relative',
+          zIndex: 1,
         }}
       >
         <h1
@@ -72,9 +123,10 @@ export function HeaderCard({ beans, settings }: HeaderCardProps) {
             fontSize: '72px',
             fontWeight: 700,
             marginBottom: '80px',
-            color: themeConfig.colors.text,
+            color: textColor,
             textAlign: 'center',
             fontFamily: themeConfig.fonts.heading,
+            textShadow: isAurora && auroraData?.isDark ? '0 0 30px rgba(255,255,255,0.3)' : undefined,
           }}
         >
           {settings.headerText}
@@ -88,17 +140,17 @@ export function HeaderCard({ beans, settings }: HeaderCardProps) {
                 padding: '24px 0',
                 borderBottom:
                   index < Math.min(beans.length - 1, 4)
-                    ? `1px solid ${themeConfig.colors.text}15`
+                    ? `1px solid ${dividerColor}`
                     : 'none',
                 fontSize: '28px',
-                fontFamily: themeConfig.fonts.body,
-                color: themeConfig.colors.text,
+                fontFamily: themeConfig.fonts.heading,
+                color: textColor,
                 textAlign: 'center',
               }}
             >
               <span style={{ fontWeight:600 }}>{bean.roaster}</span>
-              <span style={{ margin: '0 16px', opacity: 0.3 }}>—</span>
-              <span style={{ opacity: 0.7 }}>{bean.origin}</span>
+              <span style={{ margin: '0 16px', opacity: 0.5 }}>—</span>
+              <span style={{ opacity: 0.8 }}>{bean.origin}</span>
             </div>
           ))}
           {beans.length > 5 && (
@@ -106,8 +158,8 @@ export function HeaderCard({ beans, settings }: HeaderCardProps) {
               style={{
                 padding: '24px 0',
                 fontSize: '24px',
-                fontFamily: themeConfig.fonts.body,
-                color: themeConfig.colors.mutedText,
+                fontFamily: themeConfig.fonts.heading,
+                color: mutedTextColor,
                 textAlign: 'center',
               }}
             >
@@ -116,6 +168,16 @@ export function HeaderCard({ beans, settings }: HeaderCardProps) {
           )}
         </div>
       </div>
+
+      {/* CSS for twinkling animation */}
+      {isStarryNight && (
+        <style>{`
+          @keyframes twinkle {
+            0%, 100% { opacity: 0.3; transform: scale(1); }
+            50% { opacity: 1; transform: scale(1.2); }
+          }
+        `}</style>
+      )}
     </div>
   )
 }

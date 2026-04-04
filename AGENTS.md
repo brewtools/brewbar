@@ -14,7 +14,7 @@ Brewbar is a single-page web application for cafe owners to create Instagram-rea
 | Styling | Tailwind CSS | 3.4.19 | Utility-first CSS framework (Flexoki color scheme) |
 | Image Generation | html2canvas | 1.4.1 | Client-side DOM to canvas rendering |
 | ZIP Downloads | JSZip | 3.10.1 | Create ZIP archives in browser |
-| Fonts | Google Fonts | - | Inter, Merriweather, Playfair Display |
+| Fonts | Google Fonts | - | Inter, Merriweather, Playfair Display, Orbitron, Cormorant Garamond, Noto Serif JP, Noto Sans JP, Rajdhani |
 
 ## Project Structure
 
@@ -26,26 +26,27 @@ brewbar/
 ├── src/
 │   ├── components/
 │   │   ├── cards/
-│   │   │   ├── HeaderCard.tsx   # Header card layout (format-aware)
-│   │   │   └── BeanCard.tsx     # Bean detail card layouts (format-aware)
+│   │   │   ├── HeaderCard.tsx   # Header card layout (format-aware, dynamic backgrounds)
+│   │   │   └── BeanCard.tsx     # Bean detail card layouts (10 unique themes)
 │   │   ├── common/
 │   │   │   ├── FileUpload.tsx   # Drag-and-drop file upload
 │   │   │   ├── FormatSelector.tsx # Image format selector (square/portrait/story)
 │   │   │   ├── TagInput.tsx     # Tag input for tasting notes
-│   │   │   └── ThemeSelector.tsx # Theme selection UI (6 themes)
+│   │   │   └── ThemeSelector.tsx # Theme selection UI with category tabs
 │   │   └── steps/
 │   │       ├── BeanEntryForm.tsx # Step 1: Bean data entry
 │   │       ├── ImageSettings.tsx # Step 2: Settings & preview
-│   │       └── GenerateDownload.tsx # Step 3: Generate & download (format-aware)
+│   │       └── GenerateDownload.tsx # Step 3: Generate & download (theme-aware)
 │   ├── hooks/
 │   │   └── (reserved for custom hooks)
 │   ├── store/
 │   │   └── appState.tsx        # React Context-based state management
 │   ├── themes/
-│   │   └── themes.ts           # Theme configurations (6 themes with colors)
+│   │   └── themes.ts           # Theme configurations (12 themes)
 │   ├── types/
 │   │   └── index.ts            # TypeScript type definitions + IMAGE_DIMENSIONS
 │   ├── utils/
+│   │   ├── aurora.ts           # Dynamic gradient & star generation utilities
 │   │   ├── export.ts           # Download and export utilities
 │   │   └── styles.ts           # Background style helpers for card components
 │   ├── App.tsx                 # Main app component
@@ -73,9 +74,11 @@ brewbar/
 
 ### Theme System
 
-**Four distinct and unique themes** (2 light + 2 dark variants):
+**Twelve distinct and unique themes** across 4 categories:
 
-#### Warm & Cozy / Warm Dark
+#### Classic Themes
+
+##### Warm & Cozy / Warm Dark
 - **Concept**: Inviting, artisanal, approachable shop feel
 - **Typography**: Merriweather serif for headings + Inter for body text
 - **Layout Features**:
@@ -87,7 +90,7 @@ brewbar/
   - Italicized labels for vintage charm
 - **Unique Element**: Decorative top accent bar and "by [Roaster]" attribution style
 
-#### Vintage Retro / Vintage Dark
+##### Vintage Retro / Vintage Dark
 - **Concept**: Classic, timeless, sophisticated estate coffee aesthetic
 - **Typography**: Playfair Display serif as primary, Inter for labels
 - **Layout Features**:
@@ -99,28 +102,119 @@ brewbar/
   - Extra-wide letter-spacing on labels (3-4px)
 - **Unique Element**: Signature border frame and text-only flavor profile (no boxes)
 
+#### Coffee Theme
+
+##### Espresso / Espresso Dark
+- **Concept**: Rich espresso browns, modern coffee shop aesthetic
+- **Typography**: Playfair Display serif for headings + Inter for body
+- **Layout Features**:
+  - Horizontal accent line (80px wide, 3px thick)
+  - Italic roaster name in accent color
+  - Clean three-column layout with uppercase labels
+  - Rounded corners (0.5rem) with large shadows
+- **Unique Element**: Deep espresso brown color palette with cream accents
+
+#### Nature Themes
+
+##### Zen Garden
+- **Concept**: Peaceful sage greens, minimalist tranquility
+- **Typography**: Cormorant Garamond serif throughout (consistent for title and body)
+- **Layout Features**:
+  - Thin 1px border frame
+  - Minimalist line divider (40px wide, 1px)
+  - Extra-wide spacing (90px gaps between columns)
+  - Wide letter-spacing on labels (4-5px)
+  - Double line-height for flavor profile (2.0)
+- **Unique Element**: Maximum whitespace, elegant thin borders, serene aesthetic
+
+##### Matcha
+- **Concept**: Kyoto cafe style, fresh matcha green aesthetic
+- **Typography**: Noto Sans JP for headings + Inter for body
+- **Layout Features**:
+  - Geometric diamond decorations (rotated squares as dividers)
+  - Matcha green accent color on labels
+  - Diamond-shaped dividers at top and flavor profile section
+  - Clean geometric aesthetic
+- **Unique Element**: Japanese-inspired geometric patterns, fresh green palette
+
+#### Artistic Themes
+
+##### Aurora
+- **Concept**: Ethereal gradient beauty, celestial vibes with dynamic colors
+- **Typography**: Playfair Display serif + Inter
+- **Layout Features**:
+  - **Dynamic gradient background**: Randomly generated on each render
+  - **Adaptive text color**: Automatically switches between white/dark based on gradient luminance
+  - Rounded card container (20px border-radius)
+  - Gradient divider line
+- **Unique Element**: Every generation produces a unique gradient; text color adapts for readability
+
+##### Washi / Washi Dark
+- **Concept**: Traditional Japanese paper, indigo and vermillion
+- **Typography**: Noto Serif JP for headings + Inter for body
+- **Layout Features**:
+  - Top accent border (6px thick) + 2px side borders
+  - "Single Origin" badge with border
+  - Horizontal dividers with vertical separator lines between columns
+  - Traditional Japanese color palette (indigo, cream, vermillion red)
+- **Unique Element**: Traditional Japanese paper aesthetic, vermillion accents
+
+##### Space
+- **Concept**: Project Hail Mary inspired, stellar cosmic aesthetic
+- **Typography**: Orbitron (sci-fi) for headings + Rajdhani (angular) for body
+- **Layout Features**:
+  - Orbital ring decorations (concentric circles with 30% and 20% opacity)
+  - Uppercase title with wide letter-spacing (4px)
+  - Angular sci-fi typography throughout
+  - Deep space black background with purple stellar accents
+- **Unique Element**: Sci-fi orbital rings, space-themed angular fonts
+
+##### Starry Night
+- **Concept**: Van Gogh inspired, twinkling starfield with dynamic stars
+- **Typography**: Playfair Display serif + Inter
+- **Layout Features**:
+  - **Dynamic starfield**: 50 randomly positioned twinkling stars
+  - Deep blue radial gradient background
+  - Gold/yellow star accents with glow effects
+  - Twinkling CSS animation on stars
+- **Unique Element**: Random star positions generated per session; header and bean cards share same starfield
+
 ### Key Visual Differences Between Themes
 
-| Feature | Warm | Vintage |
-|---------|------|---------|
-| Typography Weight | Regular/Medium (400-500) | Regular (400) |
-| Font Family | Merriweather + Inter | Playfair Display + Inter |
-| Tasting Notes Display | Bullet separators (•) | Bullet separators (•) |
-| Info Layout | 3-column | 3-column |
-| Frame/Border | Top accent line (4px) | Full border frame (4px) |
-| Roaster Attribution | "by [Name]" italic | Italicized plain |
-| Decorative Elements | Top accent bar | Border frame + divider |
-| Spacing Feel | Cozy & gathered | Classic & structured |
+| Feature | Warm | Vintage | Espresso | Zen Garden | Matcha | Aurora | Washi | Space | Starry Night |
+|---------|------|---------|----------|------------|--------|--------|-------|-------|--------------|
+| Typography | Merriweather + Inter | Playfair + Inter | Playfair + Inter | Cormorant Garamond | Noto Sans JP + Inter | Playfair + Inter | Noto Serif JP + Inter | Orbitron + Rajdhani | Playfair + Inter |
+| Tasting Notes | Bullets (•) | Bullets (•) | Bullets (•) | Bullets (•) | Bullets (•) | Bullets (•) | Bullets (•) | Bullets (•) | Bullets (•) |
+| Info Layout | 3-column | 3-column | 3-column | 3-column | 3-column | 3-column | 3-column | 3-column | 3-column |
+| Frame/Border | Top accent | Full border | None | Thin border | None | Rounded card | Top + side borders | Orbital rings | Starfield |
+| Dynamic Elements | Static | Static | Static | Static | Static | Gradient | Static | Static | Stars |
+
+### Dynamic Theme Features
+
+#### Aurora Theme
+- **Random Gradient Generation**: 3-5 random colors selected from 18-color palette
+- **Random Angle**: 0-360 degrees for gradient direction
+- **Luminance-Based Text Color**: Automatically calculates if gradient is light or dark
+  - Dark background (luminance < 0.5) → White text with glow
+  - Light background (luminance ≥ 0.5) → Dark text (#1a1a2e)
+- **Shared Across Cards**: Same gradient used for header + all bean cards per generation
+
+#### Starry Night Theme
+- **Random Star Generation**: 50 stars with random positions, sizes, and opacity
+- **Twinkling Animation**: CSS keyframes for star brightness pulsing
+- **Consistent Starfield**: Same star positions used for header + all bean cards per generation
+- **Radial Gradient Background**: Deep blue night sky effect
 
 ### Image Generation Flow
 
 1. User enters bean data (Step 1)
 2. User customizes settings including format selection (Step 2)
 3. User clicks "Generate Images" (Step 3)
-4. App uses html2canvas to render React components to canvas
-5. **Canvas dimensions dynamically set based on selected format** (square/portrait/story)
-6. Canvas converted based on quality setting (JPEG 95% or PNG Lossless)
-7. Images downloadable individually or as ZIP
+4. App generates dynamic theme data (Aurora gradient / Starry Night stars) once per session
+5. App uses html2canvas to render React components to canvas
+6. **Canvas dimensions dynamically set based on selected format** (square/portrait/story)
+7. Canvas converted based on quality setting (JPEG 95% or PNG Lossless)
+8. Images downloadable individually or as ZIP
 
 ### Image Formats
 
@@ -141,7 +235,7 @@ All cards (header and bean) use `IMAGE_DIMENSIONS` from types to set width/heigh
 
 #### Step 2: ImageSettings
 - Format selector (3 options: square, portrait, story)
-- Theme selector (4 themes: warm, warm-dark, vintage, vintage-dark)
+- **Theme selector with category tabs** (4 categories: Classic, Coffee, Nature, Artistic)
 - Export quality selector (2 options: High JPEG 95%, Maximum PNG Lossless)
 - Background options: default, custom, gradient
 - Logo upload (PNG/SVG, max 2MB)
@@ -149,6 +243,7 @@ All cards (header and bean) use `IMAGE_DIMENSIONS` from types to set width/heigh
 
 #### Step 3: GenerateDownload
 - Generates 1 header card + N bean cards using selected format dimensions
+- **Shares dynamic theme data** (Aurora gradient / Starry Night stars) across all cards
 - Preview gallery with navigation
 - Individual download buttons
 - Download all as ZIP
@@ -207,43 +302,68 @@ The application uses the Flexoki color scheme for light theme only (no dark mode
 - Warm Dark: Dark brown (#1A1311), cream accents
 - Vintage Light: Aged paper (#F4ECD8), sepia tones
 - Vintage Dark: Dark sepia (#1F1810), aged paper aesthetic
+- Espresso: Light (#F5F0EB) / Dark (#1A0F0A), rich brown accents
+- Zen Garden: Sage green (#F8FAF7), stone gray accents
+- Matcha: Warm white (#FAFCF5), matcha green (#6B8E23)
+- Aurora: Deep blue/purple base with dynamic vibrant gradients
+- Washi: Cream (#F7F5F0), indigo (#1E3A5F), vermillion (#C9302C)
+- Space: Deep space black (#0A0A0F), stellar purple (#7B68EE)
+- Starry Night: Night blue (#0d1b2a), gold stars (#ffd700)
 
 ## Key Design Decisions
 
 1. **No State Persistence**: As per requirements, data is stored in-memory only
 2. **Client-Side Only**: All processing happens in browser, works offline
-3. **Four Distinct Themes**: Each with fundamentally different layouts, not just color changes
+3. **Twelve Distinct Themes**: Each with fundamentally different layouts, not just color changes
 4. **Theme Uniqueness**: Each theme has unique information architecture, typography weight, and visual elements
-5. **Vintage Border Frame**: Vintage themes feature decorative 4px borders on both header and bean cards
+5. **Dynamic Themes**: Aurora and Starry Night generate unique visuals on every generation
 6. **Consistent Spacing**: 80px outer padding, 60-80px section spacing across all themes
 7. **Centered Layouts**: All content properly centered with textAlign: 'center'
 8. **Format-Aware Generation**: Image dimensions dynamically adjust based on selected format
 9. **Static Build**: Vite produces static files suitable for GitHub Pages
 10. **Progressive Generation**: Images generated sequentially with progress feedback
 11. **Modular Components**: Easy to add new themes or image formats
+12. **Adaptive Text Colors**: Aurora theme automatically adjusts text color based on gradient luminance
+13. **Shared Theme Data**: Header and bean cards share dynamic elements (gradients/stars) per generation
 
 ## Recent Updates
 
-### Image Format Support
-- **Dynamic Dimensions**: HeaderCard and BeanCard now use `IMAGE_DIMENSIONS[format]` for width/height
-- **Format Selection**: Generates correct aspect ratio based on selection (1:1, 4:5, 9:16)
-- **Format Display**: Shows selected format and dimensions when generating
+### New Themes Added (2025)
+- **Espresso / Espresso Dark**: Rich coffee shop aesthetic with elegant typography
+- **Aurora**: Dynamic gradient theme with adaptive text colors
+- **Zen Garden**: Minimalist sage green aesthetic with Cormorant Garamond font
+- **Washi / Washi Dark**: Traditional Japanese paper aesthetic with Noto Serif JP
+- **Matcha**: Kyoto cafe style with geometric patterns
+- **Space**: Project Hail Mary inspired with sci-fi fonts (Orbitron + Rajdhani)
+- **Starry Night**: Van Gogh inspired with dynamic twinkling starfield
 
-### Theme Enhancements
-- **Unique Characteristics**: Each theme now has distinctive visual elements beyond colors
-- **Warm**: Decorative accent bars, bullet-separated tasting notes, "by Roaster" attribution
-- **Vintage**: Border frames, italic elements, bullet separators, Playfair Display serif
+### Dynamic Theme Features
+- **Aurora Gradient Generation**: Random 3-5 color gradients with luminance-based text color
+- **Starry Night Stars**: 50 randomly positioned stars with twinkling animation
+- **Shared Theme Data**: Header and all bean cards use same gradient/star positions per generation
 
-### Border Consistency
-- **Vintage Frames**: Both header and bean cards have matching 4px solid border frames
-- **Inner Contents**: Border applied as inner frame around content, not outer container
-- **Consistent Padding**: 60px padding inside bordered frame for all Vintage themes
+### Label Size Improvements
+- **Increased readability**: Label sizes increased from 10-11px to 14-16px across all themes
+- **Warm Layout**: 16px labels (was 11px)
+- **Vintage Layout**: 14px labels (was 10px)
+- **Consistent sizing**: All themes now use 14-16px for Origin, Varietal, Roast, Flavor Profile labels
 
-### Export Quality Feature
-- **Quality Selector**: Users can choose between High (JPEG 95%) and Maximum (PNG Lossless)
-- **2x Scale**: Both quality options render at 2× scale for sharper images (2160px width)
-- **Dynamic Export**: File extension (.jpg or .png) matches selected quality setting
-- **Default**: Maximum quality (PNG Lossless) is the default setting
+### Font Consistency
+- **Zen Garden**: Now uses Cormorant Garamond consistently for all text (title, roaster, details)
+- **Space**: Uses Orbitron for title only, Rajdhani for body text (angular sci-fi aesthetic)
+- **Header/Bean Card Consistency**: Both now use heading font for bean details
+
+### ThemeSelector Redesign
+- **Category Tabs**: Themes organized into Classic, Coffee, Nature, Artistic categories
+- **3-Column Grid**: Better space utilization for theme selection
+- **Color Preview Dots**: Shows primary, accent, and text colors
+- **Selected Indicator**: Checkmark in theme accent color
+- **Dynamic Descriptions**: Shows theme description at bottom
+
+### New Utility: aurora.ts
+- **`generateAuroraThemeData()`**: Creates random gradient + calculates text color
+- **`generateStarryNightStars()`**: Generates random star positions
+- **Luminance calculation**: Determines if background is light or dark for text contrast
 
 ## File Size Limits
 
@@ -258,6 +378,7 @@ Targets modern browsers with:
 - Canvas rendering
 - File API and Blob handling
 - Drag and drop API
+- CSS Animations (for twinkling stars)
 
 ## Layout Principles
 
@@ -266,6 +387,7 @@ Targets modern browsers with:
 - Three-column info sections for Origin, Varietal, Roast (all themes)
 - Flavor Profile always at bottom with proper labels
 - Vintage theme uses decorative borders (4px solid) on both cards
+- Zen Garden uses thin 1px borders for minimalist aesthetic
 - All text elements properly centered with textAlign: 'center'
 - Dynamic canvas dimensions based on selected image format
 
@@ -300,7 +422,8 @@ The application uses a **mobile-first responsive approach** with Tailwind CSS br
 - Format cards: Single column on mobile, three columns on desktop (`grid-cols-1 sm:grid-cols-3`)
 
 **ThemeSelector.tsx**
-- Theme cards: Single column on mobile, three columns on desktop (`grid-cols-1 sm:grid-cols-3`)
+- Category tabs: Horizontal scroll on mobile, full display on desktop
+- Theme cards: 2-column grid on mobile, 3-column on desktop (`grid-cols-2 sm:grid-cols-3`)
 
 **GenerateDownload.tsx**
 - Image navigation buttons: `flex-wrap` with reduced padding on mobile

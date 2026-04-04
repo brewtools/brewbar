@@ -3,6 +3,7 @@ import { useAppState } from '@/store/appState'
 import { HeaderCard } from '@/components/cards/HeaderCard'
 import { BeanCard } from '@/components/cards/BeanCard'
 import { IMAGE_DIMENSIONS, type ExportQuality } from '@/types'
+import { generateAuroraThemeData, generateStarryNightStars } from '@/utils/aurora'
 
 function getExportSettings(quality: ExportQuality) {
   switch (quality) {
@@ -21,6 +22,10 @@ export function GenerateDownload() {
   const [generatedImages, setGeneratedImages] = useState<string[]>([])
   const [currentPreview, setCurrentPreview] = useState(0)
 
+  // Generate Aurora gradient and Starry Night stars once per generation session
+  const isAurora = state.settings.theme === 'aurora'
+  const isStarryNight = state.settings.theme === 'starry-night'
+
   const handleGenerate = async () => {
     setIsGenerating(true)
 
@@ -29,6 +34,10 @@ export function GenerateDownload() {
       const images: string[] = []
       const dimensions = IMAGE_DIMENSIONS[state.settings.format]
       const exportSettings = getExportSettings(state.settings.exportQuality)
+
+      // Generate theme data once for consistency across all images
+      const auroraData = isAurora ? generateAuroraThemeData() : undefined
+      const starryNightStars = isStarryNight ? generateStarryNightStars(50) : undefined
 
       const container = document.createElement('div')
       container.style.position = 'absolute'
@@ -43,7 +52,7 @@ export function GenerateDownload() {
 
       const root = await import('react-dom/client')
       const headerRoot = root.createRoot(headerElement)
-      headerRoot.render(<HeaderCard beans={state.beans} settings={state.settings} />)
+      headerRoot.render(<HeaderCard beans={state.beans} settings={state.settings} auroraData={auroraData} starryNightStars={starryNightStars} />)
 
       await new Promise(resolve => setTimeout(resolve, 100))
       const headerCanvas = await html2canvas(headerElement, {
@@ -65,7 +74,7 @@ export function GenerateDownload() {
         container.appendChild(beanElement)
 
         const beanRoot = root.createRoot(beanElement)
-        beanRoot.render(<BeanCard bean={bean} settings={state.settings} />)
+        beanRoot.render(<BeanCard bean={bean} settings={state.settings} auroraData={auroraData} starryNightStars={starryNightStars} />)
 
         await new Promise(resolve => setTimeout(resolve, 100))
         const beanCanvas = await html2canvas(beanElement, {

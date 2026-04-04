@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import { useEffect } from 'react'
 import { AppProvider, useAppState } from '@/store/appState'
 import { BeanEntryForm } from '@/components/steps/BeanEntryForm'
 import { ImageSettings } from '@/components/steps/ImageSettings'
@@ -6,24 +6,25 @@ import { GenerateDownload } from '@/components/steps/GenerateDownload'
 
 function AppContent() {
   const { state, dispatch } = useAppState()
-  const [isDarkMode, setIsDarkMode] = useState(false)
 
-  // Check system preference on mount and update meta theme-color
+  // Check system preference on mount
   useEffect(() => {
     const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches
-    setIsDarkMode(prefersDark)
+    // Apply to html element for CSS variables to work
+    if (prefersDark) {
+      document.documentElement.classList.add('dark')
+    } else {
+      document.documentElement.classList.remove('dark')
+    }
   }, [])
 
-  // Update theme-color meta tag when theme changes
-  useEffect(() => {
-    const meta = document.getElementById('theme-color-meta') as HTMLMetaElement
-    if (meta) {
-      meta.content = isDarkMode ? '#100F0F' : '#FFFCF0'
-    }
-  }, [isDarkMode])
-
   const toggleTheme = () => {
-    setIsDarkMode(prev => !prev)
+    const isDark = document.documentElement.classList.contains('dark')
+    if (isDark) {
+      document.documentElement.classList.remove('dark')
+    } else {
+      document.documentElement.classList.add('dark')
+    }
   }
 
   const renderStep = () => {
@@ -46,7 +47,7 @@ function AppContent() {
   ]
 
   return (
-    <div className={`min-h-screen flex flex-col bg-bg ${isDarkMode ? 'dark' : ''}`}>
+    <div className="min-h-screen flex flex-col bg-bg">
       {/* Progress Steps */}
       <div className="border-b border-border bg-paper">
         <div className="max-w-4xl mx-auto px-4 py-4 sm:py-6">

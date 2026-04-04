@@ -151,6 +151,13 @@ Special cases:
 ### Button Text Colors
 Accent buttons use `text-accent-fg` instead of `text-white` for proper contrast in both light and dark modes.
 
+### Browser Chrome (Safari iOS)
+Safari on iOS has limited support for coloring the browser chrome (address bar):
+- `theme-color` meta tag only affects the **tab bar**, not the address bar
+- `color-scheme: dark` CSS property helps Safari understand the page's color scheme
+- The `apple-mobile-web-app-status-bar-style` only works when added to home screen as PWA
+- Dynamic theme-color changes after page load have limited effect on Safari
+
 ## Important Constraints
 
 - **Image formats**: Square (1080×1080), Portrait (1080×1350), Story (1080×1920)

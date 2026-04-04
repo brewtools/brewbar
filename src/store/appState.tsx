@@ -14,6 +14,7 @@ const initialSettings: GlobalSettings = {
   logo: null,
   logoPosition: 'top-left',
   logoSize: 'medium',
+  exportQuality: 'maximum',
 }
 
 const initialState: AppState = {

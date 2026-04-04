@@ -3,7 +3,7 @@ import { useAppState } from '@/store/appState'
 import { FormatSelector } from '@/components/common/FormatSelector'
 import { ThemeSelector } from '@/components/common/ThemeSelector'
 import { FileUpload } from '@/components/common/FileUpload'
-import type { BackgroundType, LogoPosition, LogoSize } from '@/types'
+import type { BackgroundType, LogoPosition, LogoSize, ExportQuality } from '@/types'
 
 export function ImageSettings() {
   const { state, dispatch } = useAppState()
@@ -35,6 +35,41 @@ export function ImageSettings() {
           dispatch({ type: 'UPDATE_SETTINGS', updates: { theme } })
         }
       />
+
+      <div className="bg-paper rounded-xl p-4 sm:p-8 border border-border/30">
+        <h3 className="text-base sm:text-lg font-semibold mb-4 text-fg">Export Quality</h3>
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+          {([
+            { value: 'standard' as ExportQuality, label: 'Standard', res: '1080px (1×)', format: 'JPEG 90%', desc: 'Social posts' },
+            { value: 'high' as ExportQuality, label: 'High', res: '2160px (2×)', format: 'JPEG 95%', desc: 'Best quality' },
+            { value: 'maximum' as ExportQuality, label: 'Maximum', res: '2160px (2×)', format: 'PNG Lossless', desc: 'Print-ready' },
+          ]).map((option) => (
+            <button
+              key={option.value}
+              type="button"
+              onClick={() =>
+                dispatch({ type: 'UPDATE_SETTINGS', updates: { exportQuality: option.value } })
+              }
+              className={`p-4 rounded-lg border-2 text-left transition-all ${
+                state.settings.exportQuality === option.value
+                  ? 'border-accent bg-accent/5'
+                  : 'border-border hover:border-accent/50'
+              }`}
+            >
+              <div className={`font-semibold text-sm mb-1 ${
+                state.settings.exportQuality === option.value ? 'text-accent' : 'text-fg'
+              }`}>
+                {option.label}
+              </div>
+              <div className="text-xs text-muted space-y-0.5">
+                <div>{option.res}</div>
+                <div>{option.format}</div>
+                <div className="italic">{option.desc}</div>
+              </div>
+            </button>
+          ))}
+        </div>
+      </div>
 
       <div className="bg-paper rounded-xl p-4 sm:p-8 border border-border/30">
         <h3 className="text-base sm:text-lg font-semibold mb-4 text-fg">Background</h3>

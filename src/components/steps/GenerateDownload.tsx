@@ -2,7 +2,18 @@ import { useState } from 'react'
 import { useAppState } from '@/store/appState'
 import { HeaderCard } from '@/components/cards/HeaderCard'
 import { BeanCard } from '@/components/cards/BeanCard'
-import { IMAGE_DIMENSIONS } from '@/types'
+import { IMAGE_DIMENSIONS, type ExportQuality } from '@/types'
+
+function getExportSettings(quality: ExportQuality) {
+  switch (quality) {
+    case 'standard':
+      return { scale: 1, mimeType: 'image/jpeg', quality: 0.9, extension: 'jpg' }
+    case 'high':
+      return { scale: 2, mimeType: 'image/jpeg', quality: 0.95, extension: 'jpg' }
+    case 'maximum':
+      return { scale: 2, mimeType: 'image/png', quality: undefined, extension: 'png' }
+  }
+}
 
 export function GenerateDownload() {
   const { state, dispatch } = useAppState()
@@ -17,6 +28,7 @@ export function GenerateDownload() {
       const html2canvas = (await import('html2canvas')).default
       const images: string[] = []
       const dimensions = IMAGE_DIMENSIONS[state.settings.format]
+      const exportSettings = getExportSettings(state.settings.exportQuality)
 
       const container = document.createElement('div')
       container.style.position = 'absolute'
@@ -37,11 +49,11 @@ export function GenerateDownload() {
       const headerCanvas = await html2canvas(headerElement, {
         width: dimensions.width,
         height: dimensions.height,
-        scale: 1,
+        scale: exportSettings.scale,
         useCORS: true,
         allowTaint: true,
       })
-      images.push(headerCanvas.toDataURL('image/jpeg', 0.9))
+      images.push(headerCanvas.toDataURL(exportSettings.mimeType, exportSettings.quality))
 
       headerRoot.unmount()
       container.removeChild(headerElement)
@@ -59,11 +71,11 @@ export function GenerateDownload() {
         const beanCanvas = await html2canvas(beanElement, {
           width: dimensions.width,
           height: dimensions.height,
-          scale: 1,
+          scale: exportSettings.scale,
           useCORS: true,
           allowTaint: true,
         })
-        images.push(beanCanvas.toDataURL('image/jpeg', 0.9))
+        images.push(beanCanvas.toDataURL(exportSettings.mimeType, exportSettings.quality))
 
         beanRoot.unmount()
         container.removeChild(beanElement)
@@ -82,7 +94,8 @@ export function GenerateDownload() {
   const downloadSingle = (index: number) => {
     const link = document.createElement('a')
     const date = new Date().toISOString().split('T')[0]
-    link.download = `brewbar-${date}-${index + 1}.jpg`
+    const exportSettings = getExportSettings(state.settings.exportQuality)
+    link.download = `brewbar-${date}-${index + 1}.${exportSettings.extension}`
     link.href = generatedImages[index]
     link.click()
   }
@@ -91,10 +104,11 @@ export function GenerateDownload() {
     const JSZip = (await import('jszip')).default
     const zip = new JSZip()
     const date = new Date().toISOString().split('T')[0]
+    const exportSettings = getExportSettings(state.settings.exportQuality)
 
     generatedImages.forEach((dataUrl, index) => {
       const base64 = dataUrl.split(',')[1]
-      zip.file(`brewbar-${date}-${index + 1}.jpg`, base64, { base64: true })
+      zip.file(`brewbar-${date}-${index + 1}.${exportSettings.extension}`, base64, { base64: true })
     })
 
     const blob = await zip.generateAsync({ type: 'blob' })
@@ -122,6 +136,12 @@ export function GenerateDownload() {
     story: 'Story (1080 × 1920)',
   }
 
+  const qualityLabels: Record<ExportQuality, string> = {
+    standard: 'Standard (1×)',
+    high: 'High (2×)',
+    maximum: 'Maximum (2× PNG)',
+  }
+
   return (
     <div className="space-y-6 sm:space-y-8">
       <div className="text-center">
@@ -138,7 +158,7 @@ export function GenerateDownload() {
             Generate {state.beans.length + 1} Images
           </button>
           <p className="mt-4 text-sm text-muted">
-            1 header card + {state.beans.length} bean card{state.beans.length !== 1 ? 's' : ''} • {formatLabels[state.settings.format]}
+            1 header card + {state.beans.length} bean card{state.beans.length !== 1 ? 's' : ''} • {formatLabels[state.settings.format]} • {qualityLabels[state.settings.exportQuality]}
           </p>
         </div>
       )}

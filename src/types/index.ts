@@ -8,6 +8,8 @@ export type LogoPosition = 'top-left' | 'top-right' | 'bottom-left' | 'bottom-ri
 
 export type LogoSize = 'small' | 'medium' | 'large'
 
+export type ExportQuality = 'standard' | 'high' | 'maximum'
+
 export interface TastingNote {
   id: string
   text: string
@@ -34,6 +36,7 @@ export interface GlobalSettings {
   logo: string | null
   logoPosition: LogoPosition
   logoSize: LogoSize
+  exportQuality: ExportQuality
 }
 
 export interface AppState {

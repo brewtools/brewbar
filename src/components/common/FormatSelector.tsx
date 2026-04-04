@@ -13,7 +13,7 @@ const formats: Array<{ value: ImageFormat; label: string; description: string }>
 
 export function FormatSelector({ selectedFormat, onFormatChange }: FormatSelectorProps) {
   return (
-    <div className="bg-paper rounded-xl p-6 sm:p-8 border border-border/30">
+    <div className="bg-paper rounded-xl p-6 sm:p-8 ">
       <h3 className="text-lg font-semibold mb-4 text-fg">Image Format</h3>
       <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
         {formats.map(format => (

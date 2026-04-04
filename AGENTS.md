@@ -12,6 +12,7 @@ Brewbar is a client-side React app for generating Instagram-ready coffee menu im
 2. **No State Persistence** - Data only in memory (no localStorage)
 3. **Image Generation** - Uses html2canvas: DOM → Canvas → Image
 4. **Dynamic Themes** - Aurora/Starry Night generate unique visuals per generation
+5. **Dark Mode** - CSS variables with system preference detection, no persistence
 
 ## Project Structure
 
@@ -119,11 +120,36 @@ Special cases:
 - Generates random gradient (3-5 colors from 18-color palette)
 - Calculates luminance → determines text color (white or dark)
 - Same gradient shared across header + all bean cards per generation
+- **Regenerate Button**: Available on Download page after images are generated (only for Aurora theme)
 
 ### Starry Night
 - Generates 50 random stars (position, size, opacity)
 - Twinkling CSS animation
 - Same starfield shared across header + all bean cards per generation
+
+## Dark Mode
+
+### Implementation
+- **CSS Variables**: Colors defined in `index.html` with `:root` (light) and `.dark` (dark) selectors
+- **System Preference**: Defaults to `prefers-color-scheme: dark` on initial load
+- **Toggle**: Footer contains "Switch Theme" button to toggle between modes
+- **No Persistence**: Theme resets to system default on page refresh (no localStorage)
+
+### CSS Variables
+```css
+:root {
+  --bg: #FFFCF0;        /* Light: cream, Dark: near-black */
+  --fg: #100F0F;        /* Light: near-black, Dark: soft gray */
+  --paper: #F2F0E5;     /* Light: paper, Dark: dark gray */
+  --muted: #878580;     /* Light: gray, Dark: muted gray */
+  --accent: #D14D41;    /* Same red in both modes */
+  --accent-fg: #FFFCF0; /* Light: cream, Dark: soft white */
+  --border: #E8E6E1;    /* Light: light gray, Dark: dark gray */
+}
+```
+
+### Button Text Colors
+Accent buttons use `text-accent-fg` instead of `text-white` for proper contrast in both light and dark modes.
 
 ## Important Constraints
 
@@ -144,7 +170,7 @@ bun run lint   # Type check
 
 ## Quick Reference
 
-**Current themes**: 12 total (warm, warm-dark, vintage, vintage-dark, espresso, espresso-dark, aurora, zen-garden, washi, washi-dark, matcha, space, starry-night)
+**Current themes**: 13 total (warm, warm-dark, vintage, vintage-dark, espresso, espresso-dark, aurora, zen-garden, washi, washi-dark, matcha, space, starry-night)
 
 **Adding fonts**: Update Google Fonts link in `index.html`
 

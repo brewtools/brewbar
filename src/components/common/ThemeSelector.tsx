@@ -136,7 +136,7 @@ export function ThemeSelector({ selectedTheme, onThemeChange }: ThemeSelectorPro
   const currentCategory = themeCategories.find(c => c.id === activeCategory)
 
   return (
-    <div className="bg-paper rounded-xl p-6 sm:p-8 border border-border/30">
+    <div className="bg-paper rounded-xl p-6 sm:p-8 ">
       <h3 className="text-lg font-semibold mb-4 text-fg">Theme</h3>
       
       {/* Category Tabs */}
@@ -170,7 +170,7 @@ export function ThemeSelector({ selectedTheme, onThemeChange }: ThemeSelectorPro
       </div>
       
       {/* Theme description */}
-      <div className="mt-4 p-3 bg-bg rounded-lg border border-border/30">
+      <div className="mt-4 p-3 bg-bg rounded-lg ">
         <p className="text-sm text-muted">
           {getTheme(selectedTheme).description}
         </p>

@@ -36,7 +36,7 @@ export function ImageSettings() {
         }
       />
 
-      <div className="bg-paper rounded-xl p-4 sm:p-8 border border-border/30">
+      <div className="bg-paper rounded-xl p-4 sm:p-8 ">
         <h3 className="text-base sm:text-lg font-semibold mb-4 text-fg">Export Quality</h3>
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
           {([
@@ -68,7 +68,7 @@ export function ImageSettings() {
         </div>
       </div>
 
-      <div className="bg-paper rounded-xl p-4 sm:p-8 border border-border/30">
+      <div className="bg-paper rounded-xl p-4 sm:p-8 ">
         <h3 className="text-base sm:text-lg font-semibold mb-4 text-fg">Background</h3>
         <div className="flex flex-wrap gap-2 mb-4">
           {backgroundTabs.map(tab => (
@@ -84,7 +84,7 @@ export function ImageSettings() {
               }}
               className={`px-3 sm:px-4 py-2 text-sm rounded-lg transition-colors ${
                 activeBackgroundTab === tab.value
-                  ? 'bg-accent text-white'
+                  ? 'bg-accent text-accent-fg'
                   : 'bg-bg text-fg hover:bg-accent/10'
               }`}
             >
@@ -141,7 +141,7 @@ export function ImageSettings() {
         )}
       </div>
 
-      <div className="bg-paper rounded-xl p-4 sm:p-8 border border-border/30">
+      <div className="bg-paper rounded-xl p-4 sm:p-8 ">
         <h3 className="text-base sm:text-lg font-semibold mb-4 text-fg">Logo (Optional)</h3>
         <FileUpload
           onFileSelect={logo => dispatch({ type: 'UPDATE_SETTINGS', updates: { logo } })}
@@ -165,7 +165,7 @@ export function ImageSettings() {
                       }
                       className={`px-3 py-2 text-xs sm:text-sm rounded ${
                         state.settings.logoPosition === pos
-                          ? 'bg-accent text-white'
+                          ? 'bg-accent text-accent-fg'
                           : 'bg-bg text-fg'
                       }`}
                     >
@@ -188,7 +188,7 @@ export function ImageSettings() {
                     }
                     className={`flex-1 px-3 py-2 text-xs sm:text-sm rounded ${
                       state.settings.logoSize === size
-                        ? 'bg-accent text-white'
+                        ? 'bg-accent text-accent-fg'
                         : 'bg-bg text-fg'
                     }`}
                   >
@@ -201,7 +201,7 @@ export function ImageSettings() {
         )}
       </div>
 
-      <div className="bg-paper rounded-xl p-4 sm:p-8 border border-border/30">
+      <div className="bg-paper rounded-xl p-4 sm:p-8 ">
         <h3 className="text-base sm:text-lg font-semibold mb-4 text-fg">Header Text</h3>
         <input
           type="text"
@@ -227,7 +227,7 @@ export function ImageSettings() {
         <button
           type="button"
           onClick={() => dispatch({ type: 'SET_STEP', step: 3 })}
-          className="px-8 py-2.5 bg-accent text-white rounded-lg hover:opacity-90 transition-opacity font-medium text-sm"
+          className="px-8 py-2.5 bg-accent text-accent-fg rounded-lg hover:opacity-90 transition-opacity font-medium text-sm"
         >
           Next: Generate Images →
         </button>

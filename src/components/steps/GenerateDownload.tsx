@@ -3,7 +3,7 @@ import { useAppState } from '@/store/appState'
 import { HeaderCard } from '@/components/cards/HeaderCard'
 import { BeanCard } from '@/components/cards/BeanCard'
 import { IMAGE_DIMENSIONS, type ExportQuality } from '@/types'
-import { generateAuroraThemeData, generateStarryNightStars } from '@/utils/aurora'
+import { generateAuroraThemeData, generateStarryNightStars, type AuroraThemeData } from '@/utils/aurora'
 
 function getExportSettings(quality: ExportQuality) {
   switch (quality) {
@@ -26,6 +26,13 @@ export function GenerateDownload() {
   const isAurora = state.settings.theme === 'aurora'
   const isStarryNight = state.settings.theme === 'starry-night'
 
+  // State for Aurora theme data to allow regeneration
+  const [auroraData, setAuroraData] = useState<AuroraThemeData | undefined>(undefined)
+
+  const handleRegenerateAurora = () => {
+    setAuroraData(generateAuroraThemeData())
+  }
+
   const handleGenerate = async () => {
     setIsGenerating(true)
 
@@ -36,7 +43,7 @@ export function GenerateDownload() {
       const exportSettings = getExportSettings(state.settings.exportQuality)
 
       // Generate theme data once for consistency across all images
-      const auroraData = isAurora ? generateAuroraThemeData() : undefined
+      const currentAuroraData = isAurora ? (auroraData ?? generateAuroraThemeData()) : undefined
       const starryNightStars = isStarryNight ? generateStarryNightStars(50) : undefined
 
       const container = document.createElement('div')
@@ -52,7 +59,7 @@ export function GenerateDownload() {
 
       const root = await import('react-dom/client')
       const headerRoot = root.createRoot(headerElement)
-      headerRoot.render(<HeaderCard beans={state.beans} settings={state.settings} auroraData={auroraData} starryNightStars={starryNightStars} />)
+      headerRoot.render(<HeaderCard beans={state.beans} settings={state.settings} auroraData={currentAuroraData} starryNightStars={starryNightStars} />)
 
       await new Promise(resolve => setTimeout(resolve, 100))
       const headerCanvas = await html2canvas(headerElement, {
@@ -74,7 +81,7 @@ export function GenerateDownload() {
         container.appendChild(beanElement)
 
         const beanRoot = root.createRoot(beanElement)
-        beanRoot.render(<BeanCard bean={bean} settings={state.settings} auroraData={auroraData} starryNightStars={starryNightStars} />)
+        beanRoot.render(<BeanCard bean={bean} settings={state.settings} auroraData={currentAuroraData} starryNightStars={starryNightStars} />)
 
         await new Promise(resolve => setTimeout(resolve, 100))
         const beanCanvas = await html2canvas(beanElement, {
@@ -162,7 +169,7 @@ export function GenerateDownload() {
         <div className="text-center py-12">
           <button
             onClick={handleGenerate}
-            className="px-12 py-4 bg-accent text-white rounded-lg hover:opacity-90 transition-opacity text-lg font-medium"
+            className="px-12 py-4 bg-accent text-accent-fg rounded-lg hover:opacity-90 transition-opacity text-lg font-medium"
           >
             Generate {state.beans.length + 1} Images
           </button>
@@ -181,7 +188,7 @@ export function GenerateDownload() {
 
       {generatedImages.length > 0 && (
         <>
-          <div className="bg-paper rounded-xl p-4 sm:p-8 border border-border/30">
+          <div className="bg-paper rounded-xl p-4 sm:p-8 ">
             <img
               src={generatedImages[currentPreview]}
               alt={`Preview ${currentPreview + 1}`}
@@ -195,7 +202,7 @@ export function GenerateDownload() {
                     onClick={() => setCurrentPreview(index)}
                     className={`px-3 sm:px-4 py-2 text-sm rounded transition-colors ${
                       currentPreview === index
-                        ? 'bg-accent text-white'
+                        ? 'bg-accent text-accent-fg'
                         : 'bg-bg text-fg hover:bg-accent/10'
                     }`}
                   >
@@ -209,16 +216,27 @@ export function GenerateDownload() {
           <div className="flex flex-col sm:flex-row justify-center gap-3">
             <button
               onClick={() => downloadSingle(currentPreview)}
-              className="px-6 py-2.5 bg-accent text-white rounded-lg hover:opacity-90 transition-opacity font-medium text-sm"
+              className="px-6 py-2.5 bg-accent text-accent-fg rounded-lg hover:opacity-90 transition-opacity font-medium text-sm"
             >
               Download Image
             </button>
             <button
               onClick={downloadAll}
-              className="px-6 py-2.5 border-2 border-accent text-accent rounded-lg hover:bg-accent hover:text-white transition-colors font-medium text-sm"
+              className="px-6 py-2.5 border-2 border-accent text-accent rounded-lg hover:bg-accent hover:text-accent-fg transition-colors font-medium text-sm"
             >
               Download All as ZIP
             </button>
+            {isAurora && (
+              <button
+                onClick={() => {
+                  handleRegenerateAurora()
+                  handleGenerate()
+                }}
+                className="px-6 py-2.5 border-2 border-border text-fg rounded-lg hover:bg-paper transition-colors font-medium text-sm"
+              >
+                Regenerate
+              </button>
+            )}
           </div>
 
           <div className="flex flex-col sm:flex-row justify-center gap-3 pt-8 border-t border-border">

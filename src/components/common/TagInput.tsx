@@ -52,7 +52,7 @@ export function TagInput({ tags, onChange, maxTags = 6, maxChars = 50 }: TagInpu
       {tags.map(tag => (
         <span
           key={tag.id}
-          className="inline-flex items-center gap-1 px-3 py-1 text-sm bg-accent text-white rounded-full"
+          className="inline-flex items-center gap-1 px-3 py-1 text-sm bg-accent text-accent-fg rounded-full"
         >
           {tag.text}
           <button

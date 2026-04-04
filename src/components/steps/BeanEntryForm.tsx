@@ -16,7 +16,7 @@ function BeanCard({ bean, index, canRemove }: BeanCardProps) {
   }
 
   return (
-    <div className="bg-paper rounded-xl p-4 sm:p-8 border border-border/30">
+    <div className="bg-paper rounded-xl p-4 sm:p-8">
       <div className="flex items-center justify-between mb-4 sm:mb-6">
         <h3 className="text-base sm:text-lg font-semibold text-fg">Bean #{index + 1}</h3>
         {canRemove && (
@@ -170,7 +170,7 @@ export function BeanEntryForm() {
           <button
             type="button"
             onClick={() => dispatch({ type: 'ADD_EMPTY_BEAN' })}
-            className="px-8 py-3 bg-accent text-white rounded-lg hover:opacity-90 transition-opacity font-medium"
+            className="px-8 py-3 bg-accent text-accent-fg rounded-lg hover:opacity-90 transition-opacity font-medium"
           >
             Add Your First Bean
           </button>
@@ -215,7 +215,7 @@ export function BeanEntryForm() {
           type="button"
           onClick={() => dispatch({ type: 'SET_STEP', step: 2 })}
           disabled={!canProceed}
-          className="px-8 py-2.5 bg-accent text-white rounded-lg hover:opacity-90 transition-opacity disabled:opacity-40 disabled:cursor-not-allowed font-medium text-sm"
+          className="px-8 py-2.5 bg-accent text-accent-fg rounded-lg hover:opacity-90 transition-opacity disabled:opacity-40 disabled:cursor-not-allowed font-medium text-sm"
         >
           Next: Customize Settings →
         </button>

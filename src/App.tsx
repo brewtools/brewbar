@@ -1,3 +1,4 @@
+import { useState, useEffect } from 'react'
 import { AppProvider, useAppState } from '@/store/appState'
 import { BeanEntryForm } from '@/components/steps/BeanEntryForm'
 import { ImageSettings } from '@/components/steps/ImageSettings'
@@ -5,6 +6,17 @@ import { GenerateDownload } from '@/components/steps/GenerateDownload'
 
 function AppContent() {
   const { state, dispatch } = useAppState()
+  const [isDarkMode, setIsDarkMode] = useState(false)
+
+  // Check system preference on mount
+  useEffect(() => {
+    const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches
+    setIsDarkMode(prefersDark)
+  }, [])
+
+  const toggleTheme = () => {
+    setIsDarkMode(prev => !prev)
+  }
 
   const renderStep = () => {
     switch (state.currentStep) {
@@ -26,7 +38,7 @@ function AppContent() {
   ]
 
   return (
-    <div className="min-h-screen flex flex-col bg-bg">
+    <div className={`min-h-screen flex flex-col bg-bg ${isDarkMode ? 'dark' : ''}`}>
       {/* Progress Steps */}
       <div className="border-b border-border bg-paper">
         <div className="max-w-4xl mx-auto px-4 py-4 sm:py-6">
@@ -42,7 +54,7 @@ function AppContent() {
                   disabled={step.number > state.currentStep}
                   className={`flex items-center gap-1.5 sm:gap-2 px-3 sm:px-4 py-1.5 sm:py-2 rounded-full transition-all ${
                     state.currentStep === step.number
-                      ? 'bg-accent text-white font-medium'
+                      ? 'bg-accent text-accent-fg font-medium'
                       : state.currentStep > step.number
                       ? 'text-accent hover:bg-accent/10'
                       : 'text-muted'
@@ -80,7 +92,13 @@ function AppContent() {
       <footer className="border-t border-border">
         <div className="max-w-4xl mx-auto px-4 py-4 sm:py-6">
           <p className="text-xs text-muted text-center">
-            Brewbar — Create beautiful Instagram-ready menu images for your cafe
+            Built by kei.{' '}
+            <button
+              onClick={toggleTheme}
+              className="underline hover:text-fg transition-colors"
+            >
+              Switch Theme
+            </button>
           </p>
         </div>
       </footer>

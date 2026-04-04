@@ -119,7 +119,7 @@ brewbar/
 3. User clicks "Generate Images" (Step 3)
 4. App uses html2canvas to render React components to canvas
 5. **Canvas dimensions dynamically set based on selected format** (square/portrait/story)
-6. Canvas converted to JPEG (90% quality)
+6. Canvas converted based on quality setting (JPEG 95% or PNG Lossless)
 7. Images downloadable individually or as ZIP
 
 ### Image Formats
@@ -142,7 +142,8 @@ All cards (header and bean) use `IMAGE_DIMENSIONS` from types to set width/heigh
 #### Step 2: ImageSettings
 - Format selector (3 options: square, portrait, story)
 - Theme selector (4 themes: warm, warm-dark, vintage, vintage-dark)
-- Background options: default, global image, gradient
+- Export quality selector (2 options: High JPEG 95%, Maximum PNG Lossless)
+- Background options: default, custom, gradient
 - Logo upload (PNG/SVG, max 2MB)
 - Header text customization
 
@@ -238,10 +239,16 @@ The application uses the Flexoki color scheme for light theme only (no dark mode
 - **Inner Contents**: Border applied as inner frame around content, not outer container
 - **Consistent Padding**: 60px padding inside bordered frame for all Vintage themes
 
+### Export Quality Feature
+- **Quality Selector**: Users can choose between High (JPEG 95%) and Maximum (PNG Lossless)
+- **2x Scale**: Both quality options render at 2× scale for sharper images (2160px width)
+- **Dynamic Export**: File extension (.jpg or .png) matches selected quality setting
+- **Default**: Maximum quality (PNG Lossless) is the default setting
+
 ## File Size Limits
 
 - Logo images: 2MB max, PNG/SVG/JPG recommended at 500×500px or larger
-- Generated images: JPEG at 90% quality for optimal size/quality balance
+- Generated images: JPEG 95% or PNG Lossless based on quality setting
 
 ## Browser Compatibility
 

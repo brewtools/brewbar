@@ -11,7 +11,7 @@ export function ImageSettings() {
 
   const backgroundTabs: Array<{ value: BackgroundType; label: string }> = [
     { value: 'default', label: 'Default' },
-    { value: 'global', label: 'Upload Global' },
+    { value: 'global', label: 'Custom' },
     { value: 'gradient', label: 'Gradient' },
   ]
 
@@ -38,11 +38,10 @@ export function ImageSettings() {
 
       <div className="bg-paper rounded-xl p-4 sm:p-8 border border-border/30">
         <h3 className="text-base sm:text-lg font-semibold mb-4 text-fg">Export Quality</h3>
-        <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
           {([
-            { value: 'standard' as ExportQuality, label: 'Standard', res: '1080px (1×)', format: 'JPEG 90%', desc: 'Social posts' },
-            { value: 'high' as ExportQuality, label: 'High', res: '2160px (2×)', format: 'JPEG 95%', desc: 'Best quality' },
-            { value: 'maximum' as ExportQuality, label: 'Maximum', res: '2160px (2×)', format: 'PNG Lossless', desc: 'Print-ready' },
+            { value: 'high' as ExportQuality, label: 'High', format: 'JPEG 95%' },
+            { value: 'maximum' as ExportQuality, label: 'Maximum', format: 'PNG Lossless' },
           ]).map((option) => (
             <button
               key={option.value}
@@ -61,10 +60,8 @@ export function ImageSettings() {
               }`}>
                 {option.label}
               </div>
-              <div className="text-xs text-muted space-y-0.5">
-                <div>{option.res}</div>
-                <div>{option.format}</div>
-                <div className="italic">{option.desc}</div>
+              <div className="text-xs text-muted">
+                {option.format}
               </div>
             </button>
           ))}

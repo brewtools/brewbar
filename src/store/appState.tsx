@@ -47,7 +47,6 @@ function appReducer(state: AppState, action: Action): AppState {
             varietal: '',
             roastProfile: '',
             tastingNotes: [],
-            bagImage: null,
           },
         ],
       }

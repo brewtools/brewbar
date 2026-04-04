@@ -1,7 +1,6 @@
 import type { Bean } from '@/types'
 import { useAppState } from '@/store/appState'
 import { TagInput } from '@/components/common/TagInput'
-import { FileUpload } from '@/components/common/FileUpload'
 
 interface BeanCardProps {
   bean: Bean
@@ -108,15 +107,6 @@ function BeanCard({ bean, index, canRemove }: BeanCardProps) {
             tags={bean.tastingNotes}
             onChange={tastingNotes => updateBean({ tastingNotes })}
             maxTags={6}
-          />
-        </div>
-
-        <div className="md:col-span-2">
-          <label className="block text-sm font-medium mb-2 text-fg">Bag Image (Optional)</label>
-          <FileUpload
-            onFileSelect={bagImage => updateBean({ bagImage })}
-            currentFile={bean.bagImage}
-            label="Upload bag image"
           />
         </div>
       </div>

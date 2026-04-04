@@ -1,6 +1,7 @@
 import type { Bean, GlobalSettings } from '@/types'
 import { getTheme } from '@/themes/themes'
-import { IMAGE_DIMENSIONS } from '@/types'
+import { IMAGE_DIMENSIONS, LOGO_SIZES } from '@/types'
+import { getBackgroundStyle } from '@/utils/styles'
 
 interface BeanCardProps {
   bean: Bean
@@ -10,30 +11,13 @@ interface BeanCardProps {
 export function BeanCard({ bean, settings }: BeanCardProps) {
   const themeConfig = getTheme(settings.theme)
   const dimensions = IMAGE_DIMENSIONS[settings.format]
-
-  const getBackgroundStyle = (): React.CSSProperties => {
-    if (settings.backgroundType === 'default') {
-      return { backgroundColor: themeConfig.colors.paper }
-    }
-
-    if (settings.backgroundType === 'global' && settings.backgroundImage) {
-      return {
-        backgroundImage: `url(${settings.backgroundImage})`,
-        backgroundSize: 'cover',
-        backgroundPosition: 'center',
-      }
-    }
-
-    if (settings.backgroundType === 'gradient') {
-      const intensity = settings.gradientIntensity / 100
-      const baseColor = themeConfig.colors.paper
-      return {
-        background: `linear-gradient(135deg, ${baseColor} 0%, ${settings.gradientColor}${Math.round(intensity * 255).toString(16).padStart(2, '0')} 100%)`,
-      }
-    }
-
-    return { backgroundColor: themeConfig.colors.paper }
-  }
+  const bgStyle = getBackgroundStyle(
+    settings.backgroundType,
+    settings.backgroundImage,
+    settings.gradientColor,
+    settings.gradientIntensity,
+    settings.theme
+  )
 
   const renderCard = () => {
     if (settings.theme === 'warm' || settings.theme === 'warm-dark') {
@@ -54,7 +38,7 @@ export function BeanCard({ bean, settings }: BeanCardProps) {
         alignItems: 'center',
         justifyContent: 'center',
         padding: '80px',
-        ...getBackgroundStyle(),
+        ...bgStyle,
       }}
     >
       {settings.logo && (
@@ -71,7 +55,7 @@ export function BeanCard({ bean, settings }: BeanCardProps) {
             src={settings.logo}
             alt="Logo"
             style={{
-              width: settings.logoSize === 'small' ? '80px' : settings.logoSize === 'medium' ? '120px' : '180px',
+              width: `${LOGO_SIZES[settings.logoSize]}px`,
               height: 'auto',
             }}
           />
@@ -86,7 +70,6 @@ export function BeanCard({ bean, settings }: BeanCardProps) {
 function WarmLayout({ bean, themeConfig }: { bean: Bean; themeConfig: ReturnType<typeof getTheme> }) {
   return (
     <div style={{ textAlign: 'center', width: '100%' }}>
-      {/* Name - Decorative top accent */}
       <div
         style={{
           width: '60px',
@@ -97,7 +80,6 @@ function WarmLayout({ bean, themeConfig }: { bean: Bean; themeConfig: ReturnType
         }}
       />
 
-      {/* Name */}
       <h2
         style={{
           fontSize: '64px',
@@ -111,7 +93,6 @@ function WarmLayout({ bean, themeConfig }: { bean: Bean; themeConfig: ReturnType
         {bean.name}
       </h2>
 
-      {/* Roaster */}
       <div
         style={{
           fontSize: '28px',
@@ -124,7 +105,6 @@ function WarmLayout({ bean, themeConfig }: { bean: Bean; themeConfig: ReturnType
         by {bean.roaster}
       </div>
 
-      {/* Origin, Varietal, Roast - Three columns */}
       <div
         style={{
           display: 'flex',
@@ -206,7 +186,6 @@ function WarmLayout({ bean, themeConfig }: { bean: Bean; themeConfig: ReturnType
         </div>
       </div>
 
-      {/* Tasting Notes - Bullet Separators */}
       {bean.tastingNotes.length > 0 && (
         <div>
           <div
@@ -257,7 +236,6 @@ function VintageLayout({ bean, themeConfig }: { bean: Bean; themeConfig: ReturnT
         border: `4px solid ${themeConfig.colors.accent}`,
       }}
     >
-      {/* Name */}
       <h2
         style={{
           fontSize: '68px',
@@ -271,7 +249,6 @@ function VintageLayout({ bean, themeConfig }: { bean: Bean; themeConfig: ReturnT
         {bean.name}
       </h2>
 
-      {/* Decorative Divider */}
       <div
         style={{
           width: '120px',
@@ -281,7 +258,6 @@ function VintageLayout({ bean, themeConfig }: { bean: Bean; themeConfig: ReturnT
         }}
       />
 
-      {/* Roaster - Italic */}
       <div
         style={{
           fontSize: '30px',
@@ -295,7 +271,6 @@ function VintageLayout({ bean, themeConfig }: { bean: Bean; themeConfig: ReturnT
         {bean.roaster}
       </div>
 
-      {/* Origin, Varietal, Roast */}
       <div
         style={{
           display: 'flex',
@@ -383,7 +358,6 @@ function VintageLayout({ bean, themeConfig }: { bean: Bean; themeConfig: ReturnT
         </div>
       </div>
 
-      {/* Tasting Notes - Bullet Separators */}
       {bean.tastingNotes.length > 0 && (
         <div>
           <div

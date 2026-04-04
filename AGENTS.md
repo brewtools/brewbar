@@ -47,8 +47,7 @@ brewbar/
 │   │   └── index.ts            # TypeScript type definitions + IMAGE_DIMENSIONS
 │   ├── utils/
 │   │   ├── export.ts           # Download and export utilities
-│   │   ├── styles.ts           # Style calculation helpers
-│   │   └── validation.ts       # Input validation functions
+│   │   └── styles.ts           # Background style helpers for card components
 │   ├── App.tsx                 # Main app component
 │   ├── index.css              # Global styles (Flexoki light theme only)
 │   ├── main.tsx               # App entry point
@@ -136,14 +135,14 @@ All cards (header and bean) use `IMAGE_DIMENSIONS` from types to set width/heigh
 
 #### Step 1: BeanEntryForm
 - Displays up to 5 bean cards
-- Each card: roaster, name, origin, varietal, roast profile, tasting notes (tags), bag image
+- Each card: roaster, name, origin, varietal, roast profile, tasting notes (tags)
 - Real-time validation
 - Import/Export JSON functionality
 
 #### Step 2: ImageSettings
 - Format selector (3 options: square, portrait, story)
-- Theme selector (6 options with live preview)
-- Background options: default, global image, per-image, gradient
+- Theme selector (4 themes: warm, warm-dark, vintage, vintage-dark)
+- Background options: default, global image, gradient
 - Logo upload (PNG/SVG, max 2MB)
 - Header text customization
 
@@ -241,7 +240,6 @@ The application uses the Flexoki color scheme for light theme only (no dark mode
 
 ## File Size Limits
 
-- Bean images (bag photos): 5MB max, JPG/PNG only
 - Logo images: 2MB max, PNG/SVG/JPG recommended at 500×500px or larger
 - Generated images: JPEG at 90% quality for optimal size/quality balance
 

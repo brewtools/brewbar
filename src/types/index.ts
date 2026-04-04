@@ -2,7 +2,7 @@ export type ImageFormat = 'square' | 'portrait' | 'story'
 
 export type Theme = 'warm' | 'warm-dark' | 'vintage' | 'vintage-dark'
 
-export type BackgroundType = 'default' | 'global' | 'perImage' | 'gradient'
+export type BackgroundType = 'default' | 'global' | 'gradient'
 
 export type LogoPosition = 'top-left' | 'top-right' | 'bottom-left' | 'bottom-right'
 
@@ -21,7 +21,6 @@ export interface Bean {
   varietal: string
   roastProfile: string
   tastingNotes: TastingNote[]
-  bagImage: string | null
 }
 
 export interface GlobalSettings {

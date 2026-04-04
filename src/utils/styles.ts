@@ -1,8 +1,8 @@
-import type { Theme } from '@/types'
+import type { BackgroundType, Theme } from '@/types'
 import { getTheme } from '@/themes/themes'
 
 export function getBackgroundStyle(
-  backgroundType: string,
+  backgroundType: BackgroundType,
   backgroundImage: string | null,
   gradientColor: string,
   gradientIntensity: number,
@@ -11,21 +11,14 @@ export function getBackgroundStyle(
   const themeConfig = getTheme(theme)
 
   if (backgroundType === 'default') {
-    return {
-      backgroundColor: themeConfig.colors.paper,
-    }
+    return { backgroundColor: themeConfig.colors.paper }
   }
 
-  if (backgroundType === 'global' || backgroundType === 'perImage') {
-    if (backgroundImage) {
-      return {
-        backgroundImage: `url(${backgroundImage})`,
-        backgroundSize: 'cover',
-        backgroundPosition: 'center',
-      }
-    }
+  if (backgroundType === 'global' && backgroundImage) {
     return {
-      backgroundColor: themeConfig.colors.paper,
+      backgroundImage: `url(${backgroundImage})`,
+      backgroundSize: 'cover',
+      backgroundPosition: 'center',
     }
   }
 
@@ -37,5 +30,5 @@ export function getBackgroundStyle(
     }
   }
 
-  return {}
+  return { backgroundColor: themeConfig.colors.paper }
 }

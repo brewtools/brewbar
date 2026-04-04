@@ -12,7 +12,6 @@ export function ImageSettings() {
   const backgroundTabs: Array<{ value: BackgroundType; label: string }> = [
     { value: 'default', label: 'Default' },
     { value: 'global', label: 'Upload Global' },
-    { value: 'perImage', label: 'Upload Per-Image' },
     { value: 'gradient', label: 'Gradient' },
   ]
 
@@ -106,28 +105,6 @@ export function ImageSettings() {
                 className="w-full"
               />
             </div>
-          </div>
-        )}
-
-        {activeBackgroundTab === 'perImage' && (
-          <div className="space-y-4">
-            <p className="text-sm text-muted">
-              Upload separate backgrounds for each bean
-            </p>
-            {state.beans.map((bean, index) => (
-              <div key={bean.id}>
-                <label className="block text-sm font-medium mb-2 text-fg">
-                  Bean #{index + 1}: {bean.name || 'Unnamed'}
-                </label>
-                <FileUpload
-                  onFileSelect={() => {
-                    // Per-bean background would need separate state
-                  }}
-                  currentFile={null}
-                  label="Upload Background"
-                />
-              </div>
-            ))}
           </div>
         )}
       </div>

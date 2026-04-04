@@ -1,6 +1,7 @@
 import type { Bean, GlobalSettings } from '@/types'
 import { getTheme } from '@/themes/themes'
-import { IMAGE_DIMENSIONS } from '@/types'
+import { IMAGE_DIMENSIONS, LOGO_SIZES } from '@/types'
+import { getBackgroundStyle } from '@/utils/styles'
 
 interface HeaderCardProps {
   beans: Bean[]
@@ -11,30 +12,13 @@ export function HeaderCard({ beans, settings }: HeaderCardProps) {
   const themeConfig = getTheme(settings.theme)
   const isVintage = settings.theme === 'vintage' || settings.theme === 'vintage-dark'
   const dimensions = IMAGE_DIMENSIONS[settings.format]
-
-  const getBackgroundStyle = (): React.CSSProperties => {
-    if (settings.backgroundType === 'default') {
-      return { backgroundColor: themeConfig.colors.paper }
-    }
-
-    if (settings.backgroundType === 'global' && settings.backgroundImage) {
-      return {
-        backgroundImage: `url(${settings.backgroundImage})`,
-        backgroundSize: 'cover',
-        backgroundPosition: 'center',
-      }
-    }
-
-    if (settings.backgroundType === 'gradient') {
-      const intensity = settings.gradientIntensity / 100
-      const baseColor = themeConfig.colors.paper
-      return {
-        background: `linear-gradient(135deg, ${baseColor} 0%, ${settings.gradientColor}${Math.round(intensity * 255).toString(16).padStart(2, '0')} 100%)`,
-      }
-    }
-
-    return { backgroundColor: themeConfig.colors.paper }
-  }
+  const bgStyle = getBackgroundStyle(
+    settings.backgroundType,
+    settings.backgroundImage,
+    settings.gradientColor,
+    settings.gradientIntensity,
+    settings.theme
+  )
 
   return (
     <div
@@ -47,7 +31,7 @@ export function HeaderCard({ beans, settings }: HeaderCardProps) {
         justifyContent: 'center',
         padding: '80px',
         position: 'relative',
-        ...getBackgroundStyle(),
+        ...bgStyle,
       }}
     >
       {settings.logo && (
@@ -64,7 +48,7 @@ export function HeaderCard({ beans, settings }: HeaderCardProps) {
             src={settings.logo}
             alt="Logo"
             style={{
-              width: settings.logoSize === 'small' ? '80px' : settings.logoSize === 'medium' ? '120px' : '180px',
+              width: `${LOGO_SIZES[settings.logoSize]}px`,
               height: 'auto',
             }}
           />
@@ -83,7 +67,6 @@ export function HeaderCard({ beans, settings }: HeaderCardProps) {
           border: isVintage ? `4px solid ${themeConfig.colors.accent}` : 'none',
         }}
       >
-        {/* Title */}
         <h1
           style={{
             fontSize: '72px',
@@ -97,7 +80,6 @@ export function HeaderCard({ beans, settings }: HeaderCardProps) {
           {settings.headerText}
         </h1>
 
-        {/* Bean List */}
         <div style={{ width: '100%', maxWidth: '800px' }}>
           {beans.slice(0, 5).map((bean, index) => (
             <div
@@ -114,7 +96,7 @@ export function HeaderCard({ beans, settings }: HeaderCardProps) {
                 textAlign: 'center',
               }}
             >
-              <span style={{ fontWeight: 600 }}>{bean.roaster}</span>
+              <span style={{ fontWeight:600 }}>{bean.roaster}</span>
               <span style={{ margin: '0 16px', opacity: 0.3 }}>—</span>
               <span style={{ opacity: 0.7 }}>{bean.origin}</span>
             </div>

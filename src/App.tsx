@@ -8,11 +8,19 @@ function AppContent() {
   const { state, dispatch } = useAppState()
   const [isDarkMode, setIsDarkMode] = useState(false)
 
-  // Check system preference on mount
+  // Check system preference on mount and update meta theme-color
   useEffect(() => {
     const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches
     setIsDarkMode(prefersDark)
   }, [])
+
+  // Update theme-color meta tag when theme changes
+  useEffect(() => {
+    const meta = document.getElementById('theme-color-meta') as HTMLMetaElement
+    if (meta) {
+      meta.content = isDarkMode ? '#100F0F' : '#FFFCF0'
+    }
+  }, [isDarkMode])
 
   const toggleTheme = () => {
     setIsDarkMode(prev => !prev)

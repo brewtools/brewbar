@@ -137,8 +137,37 @@ export function ZenGardenLayout({ bean, themeConfig }: LayoutProps) {
         </div>
       </div>
 
+      {bean.process && (
+        <div style={{ marginBottom: '60px', textAlign: 'center' }}>
+          <div
+            style={{
+              fontSize: '14px',
+              color: themeConfig.colors.mutedText,
+              marginBottom: '16px',
+              fontFamily: 'Inter, sans-serif',
+              textTransform: 'uppercase',
+              letterSpacing: '4px',
+              fontWeight: 400,
+            }}
+          >
+            Process
+          </div>
+          <div
+            style={{
+              fontSize: '24px',
+              color: themeConfig.colors.text,
+              fontFamily: fontFamily,
+              fontWeight: 400,
+              letterSpacing: '1px',
+            }}
+          >
+            {bean.process}
+          </div>
+        </div>
+      )}
+
       {bean.tastingNotes.length > 0 && (
-        <div>
+        <div style={{ textAlign: 'center' }}>
           <div
             style={{
               fontSize: '14px',

@@ -102,6 +102,20 @@ function BeanCard({ bean, index, canRemove }: BeanCardProps) {
         </div>
 
         <div className="md:col-span-2">
+          <label className="block text-sm font-medium mb-2 text-fg">
+            Process <span className="text-accent">*</span>
+          </label>
+          <input
+            type="text"
+            value={bean.process}
+            onChange={e => updateBean({ process: e.target.value })}
+            maxLength={50}
+            className="w-full px-4 py-3 border border-border rounded-lg bg-bg focus:border-accent focus:ring-2 focus:ring-accent/20 outline-none transition-all text-sm text-fg placeholder:text-muted"
+            placeholder="e.g., Washed, Natural, Honey"
+          />
+        </div>
+
+        <div className="md:col-span-2">
           <label className="block text-sm font-medium mb-2 text-fg">Tasting Notes (up to 6)</label>
           <TagInput
             tags={bean.tastingNotes}
@@ -148,7 +162,8 @@ export function BeanEntryForm() {
     bean.name.trim() &&
     bean.origin.trim() &&
     bean.varietal.trim() &&
-    bean.roastProfile.trim()
+    bean.roastProfile.trim() &&
+    bean.process.trim()
   )
 
   return (

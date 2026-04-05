@@ -31,6 +31,7 @@ export interface Bean {
   origin: string
   varietal: string
   roastProfile: string
+  process: string
   tastingNotes: TastingNote[]
 }
 

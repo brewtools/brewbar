@@ -132,7 +132,7 @@ export function HeaderCard({ beans, settings, auroraData, starryNightStars }: He
           {settings.headerText}
         </h1>
 
-        <div style={{ width: '100%', maxWidth: '800px' }}>
+        <div style={{ width: '100%', maxWidth: '800px', margin: '0 auto' }}>
           {beans.slice(0, 5).map((bean, index) => (
             <div
               key={bean.id}

@@ -155,8 +155,34 @@ export function WashiLayout({ bean, themeConfig }: LayoutProps) {
         </div>
       </div>
 
+      {bean.process && (
+        <div style={{ marginBottom: '40px', textAlign: 'center' }}>
+          <div
+            style={{
+              fontSize: '13px',
+              color: themeConfig.colors.mutedText,
+              marginBottom: '10px',
+              fontFamily: 'Inter, sans-serif',
+              letterSpacing: '2px',
+            }}
+          >
+            PROCESS
+          </div>
+          <div
+            style={{
+              fontSize: '22px',
+              color: themeConfig.colors.text,
+              fontFamily: themeConfig.fonts.heading,
+              fontWeight: 500,
+            }}
+          >
+            {bean.process}
+          </div>
+        </div>
+      )}
+
       {bean.tastingNotes.length > 0 && (
-        <div>
+        <div style={{ textAlign: 'center' }}>
           <div
             style={{
               fontSize: '13px',

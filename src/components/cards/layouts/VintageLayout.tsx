@@ -136,8 +136,36 @@ export function VintageLayout({ bean, themeConfig }: LayoutProps) {
         </div>
       </div>
 
+      {bean.process && (
+        <div style={{ marginBottom: '60px', textAlign: 'center' }}>
+          <div
+            style={{
+              fontSize: '14px',
+              color: themeConfig.colors.mutedText,
+              marginBottom: '14px',
+              fontFamily: 'Inter, sans-serif',
+              textTransform: 'uppercase',
+              letterSpacing: '3px',
+              fontWeight: 600,
+            }}
+          >
+            Process
+          </div>
+          <div
+            style={{
+              fontSize: '24px',
+              color: themeConfig.colors.text,
+              fontFamily: 'Playfair Display, serif',
+              fontWeight: 400,
+            }}
+          >
+            {bean.process}
+          </div>
+        </div>
+      )}
+
       {bean.tastingNotes.length > 0 && (
-        <div>
+        <div style={{ textAlign: 'center' }}>
           <div
             style={{
               fontSize: '14px',

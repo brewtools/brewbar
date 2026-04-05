@@ -175,6 +175,30 @@ bun run build  # Production build
 bun run lint   # Type check
 ```
 
+## Bean Data Structure
+
+```typescript
+interface Bean {
+  id: string
+  roaster: string      // Required
+  name: string         // Required
+  origin: string       // Required
+  varietal: string     // Required
+  roastProfile: string // Required
+  process: string      // Required - e.g., "Washed", "Natural", "Honey"
+  tastingNotes: TastingNote[]  // Optional, max 6
+}
+```
+
+### Layout Display Order
+
+All theme layouts display bean data in this vertical order:
+1. Bean Name (heading)
+2. Roaster
+3. Origin / Varietal / Roast (horizontal row)
+4. **Process** (optional, on its own row)
+5. Flavor Profile (optional)
+
 ## Quick Reference
 
 **Current themes**: 13 total (warm, warm-dark, vintage, vintage-dark, espresso, espresso-dark, aurora, zen-garden, washi, washi-dark, matcha, space, starry-night)
@@ -184,3 +208,5 @@ bun run lint   # Type check
 **Changing label sizes**: Edit fontSize in respective layout file
 
 **Header vs Bean consistency**: Both now use `themeConfig.fonts.heading` for text
+
+**Adding a new bean property**: Update `Bean` interface in `types/index.ts`, `ADD_EMPTY_BEAN` in `store/appState.tsx`, `BeanEntryForm.tsx`, and all 9 layout files

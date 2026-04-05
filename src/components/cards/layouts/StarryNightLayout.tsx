@@ -155,8 +155,36 @@ export function StarryNightLayout({ bean, themeConfig, stars }: StarryNightLayou
           </div>
         </div>
 
+        {bean.process && (
+          <div style={{ marginBottom: '60px', textAlign: 'center' }}>
+            <div
+              style={{
+                fontSize: '14px',
+                color: themeConfig.colors.accent,
+                marginBottom: '12px',
+                fontFamily: 'Inter, sans-serif',
+                textTransform: 'uppercase',
+                letterSpacing: '3px',
+                fontWeight: 500,
+              }}
+            >
+              Process
+            </div>
+            <div
+              style={{
+                fontSize: '24px',
+                color: themeConfig.colors.text,
+                fontFamily: themeConfig.fonts.body,
+                fontWeight: 400,
+              }}
+            >
+              {bean.process}
+            </div>
+          </div>
+        )}
+
         {bean.tastingNotes.length > 0 && (
-          <div>
+          <div style={{ textAlign: 'center' }}>
             <div
               style={{
                 fontSize: '14px',

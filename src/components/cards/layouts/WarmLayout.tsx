@@ -119,8 +119,34 @@ export function WarmLayout({ bean, themeConfig }: LayoutProps) {
         </div>
       </div>
 
+      {bean.process && (
+        <div style={{ marginBottom: '60px', textAlign: 'center' }}>
+          <div
+            style={{
+              fontSize: '16px',
+              color: themeConfig.colors.mutedText,
+              marginBottom: '12px',
+              fontFamily: 'Merriweather, serif',
+              fontStyle: 'italic',
+            }}
+          >
+            Process
+          </div>
+          <div
+            style={{
+              fontSize: '24px',
+              color: themeConfig.colors.text,
+              fontFamily: themeConfig.fonts.body,
+              fontWeight: 500,
+            }}
+          >
+            {bean.process}
+          </div>
+        </div>
+      )}
+
       {bean.tastingNotes.length > 0 && (
-        <div>
+        <div style={{ textAlign: 'center' }}>
           <div
             style={{
               fontSize: '16px',

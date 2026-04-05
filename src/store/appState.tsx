@@ -47,6 +47,7 @@ function appReducer(state: AppState, action: Action): AppState {
             origin: '',
             varietal: '',
             roastProfile: '',
+            process: '',
             tastingNotes: [],
           },
         ],
